@@ -135,6 +135,7 @@ final class FilmsTableViewCell: UITableViewCell {
 
     private func setupTitleLabel() {
         mainView.addSubview(titleLabel)
+        titleLabel.numberOfLines = 0
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.font = UIFont.boldSystemFont(ofSize: 17)
         titleLabel.textAlignment = .center
@@ -142,7 +143,6 @@ final class FilmsTableViewCell: UITableViewCell {
             titleLabel.topAnchor.constraint(equalTo: mainView.topAnchor, constant: 5),
             titleLabel.trailingAnchor.constraint(equalTo: mainView.trailingAnchor, constant: -5),
             titleLabel.leadingAnchor.constraint(equalTo: posterImageView.trailingAnchor, constant: 5),
-            titleLabel.heightAnchor.constraint(equalToConstant: 25)
         ])
     }
 

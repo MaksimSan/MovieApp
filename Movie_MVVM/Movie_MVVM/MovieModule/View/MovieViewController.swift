@@ -6,15 +6,6 @@ import UIKit
 final class MovieViewController: UIViewController {
     // MARK: Enums
 
-    private enum URL {
-        static let topRatedCategory =
-            "https://api.themoviedb.org/3/movie/top_rated?api_key=209be2942f86f39dd556564d2ad35c5c&language=ru-RU"
-        static let popularCategory =
-            "https://api.themoviedb.org/3/movie/popular?api_key=209be2942f86f39dd556564d2ad35c5c&language=ru-RU"
-        static let upcomingCategory =
-            "https://api.themoviedb.org/3/movie/upcoming?api_key=209be2942f86f39dd556564d2ad35c5c&language=ru-RU"
-    }
-
     private enum Constant {
         static let topRatedCategoryTitle = "Top Rated"
         static let popularCategoryTitle = "Popular"
@@ -42,7 +33,7 @@ final class MovieViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        viewModel?.getMovie(url: URL.topRatedCategory)
+        viewModel?.getMovie(url: MovieViewModel.topRatedCategory)
         setupTableView()
         setupPopularButton()
         setupTopRatedButton()
@@ -77,8 +68,8 @@ final class MovieViewController: UIViewController {
         NSLayoutConstraint.activate([
             topRatedButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 20),
             topRatedButton.bottomAnchor.constraint(equalTo: tableView.topAnchor, constant: -20),
-            topRatedButton.trailingAnchor.constraint(equalTo: popularButton.leadingAnchor, constant: -30),
-            topRatedButton.widthAnchor.constraint(equalToConstant: 110)
+            topRatedButton.trailingAnchor.constraint(equalTo: popularButton.leadingAnchor, constant: -20),
+            topRatedButton.widthAnchor.constraint(equalToConstant: 100)
         ])
     }
 
@@ -96,7 +87,7 @@ final class MovieViewController: UIViewController {
             popularButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             popularButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 20),
             popularButton.bottomAnchor.constraint(equalTo: tableView.topAnchor, constant: -20),
-            popularButton.widthAnchor.constraint(equalToConstant: 110)
+            popularButton.widthAnchor.constraint(equalToConstant: 100)
         ])
     }
 
@@ -112,9 +103,9 @@ final class MovieViewController: UIViewController {
         upcomingButton.tag = 2
         NSLayoutConstraint.activate([
             upcomingButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 20),
-            upcomingButton.leadingAnchor.constraint(equalTo: popularButton.trailingAnchor, constant: 30),
+            upcomingButton.leadingAnchor.constraint(equalTo: popularButton.trailingAnchor, constant: 20),
             upcomingButton.bottomAnchor.constraint(equalTo: tableView.topAnchor, constant: -20),
-            upcomingButton.widthAnchor.constraint(equalToConstant: 110)
+            upcomingButton.widthAnchor.constraint(equalToConstant: 100)
         ])
     }
 
@@ -138,24 +129,32 @@ final class MovieViewController: UIViewController {
         ])
     }
 
+    private func returnStartTable() {
+        tableView.bounds = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+    }
+
     @objc private func changeGenreMovie(button: UIButton) {
         button.backgroundColor = .systemOrange
+
         switch Categories(rawValue: button.tag) {
         case .topRated:
-            viewModel?.getMovie(url: URL.topRatedCategory)
+            viewModel?.getMovie(url: MovieViewModel.topRatedCategory)
             popularButton.backgroundColor = .gray
             upcomingButton.backgroundColor = .gray
             title = Constant.topRatedCategoryTitle
+            returnStartTable()
         case .popular:
-            viewModel?.getMovie(url: URL.popularCategory)
+            viewModel?.getMovie(url: MovieViewModel.popularCategory)
             topRatedButton.backgroundColor = .gray
             upcomingButton.backgroundColor = .gray
             title = Constant.popularCategoryTitle
+            returnStartTable()
         case .upcoming:
-            viewModel?.getMovie(url: URL.upcomingCategory)
+            viewModel?.getMovie(url: MovieViewModel.upcomingCategory)
             topRatedButton.backgroundColor = .gray
             popularButton.backgroundColor = .gray
             title = Constant.upcomingCategoryTitle
+            returnStartTable()
         default: break
         }
     }
