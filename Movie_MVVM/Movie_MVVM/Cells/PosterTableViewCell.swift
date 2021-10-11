@@ -2,7 +2,7 @@
 // Copyright © RoadMap. All rights reserved.
 
 import UIKit
-/// PosterTableViewCell
+
 final class PosterTableViewCell: UITableViewCell {
     // MARK: Static Properties
 
