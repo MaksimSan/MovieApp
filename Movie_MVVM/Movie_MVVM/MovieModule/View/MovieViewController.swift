@@ -33,12 +33,14 @@ final class MovieViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        viewModel?.getMovie(url: MovieViewModel.topRatedCategory)
         setupTableView()
         setupPopularButton()
         setupTopRatedButton()
         setupUpcomingButton()
         reloadTable()
+        updateTopRated()
+        updatePopular()
+        updateUpcoming()
     }
 
     // MARK: Internal Methods
@@ -48,6 +50,33 @@ final class MovieViewController: UIViewController {
     }
 
     // MARK: Private Methods
+
+    private func updateTopRated() {
+        viewModel?.updateTopRatedCategory = { [weak self] in
+            self?.popularButton.backgroundColor = .gray
+            self?.upcomingButton.backgroundColor = .gray
+            self?.title = Constant.topRatedCategoryTitle
+            self?.returnStartTable()
+        }
+    }
+
+    private func updatePopular() {
+        viewModel?.updatePopularCategory = { [weak self] in
+            self?.topRatedButton.backgroundColor = .gray
+            self?.upcomingButton.backgroundColor = .gray
+            self?.title = Constant.popularCategoryTitle
+            self?.returnStartTable()
+        }
+    }
+
+    private func updateUpcoming() {
+        viewModel?.updateUpcomingCategory = { [weak self] in
+            self?.topRatedButton.backgroundColor = .gray
+            self?.popularButton.backgroundColor = .gray
+            self?.title = Constant.upcomingCategoryTitle
+            self?.returnStartTable()
+        }
+    }
 
     private func reloadTable() {
         viewModel?.reloadTable = { [weak self] in
@@ -64,7 +93,7 @@ final class MovieViewController: UIViewController {
         topRatedButton.layer.borderWidth = 1
         topRatedButton.layer.borderColor = UIColor.black.cgColor
         topRatedButton.tag = 0
-        topRatedButton.addTarget(self, action: #selector(changeGenreMovie), for: .touchUpInside)
+        topRatedButton.addTarget(self, action: #selector(changeCategoryMovie), for: .touchUpInside)
         NSLayoutConstraint.activate([
             topRatedButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 20),
             topRatedButton.bottomAnchor.constraint(equalTo: tableView.topAnchor, constant: -20),
@@ -82,7 +111,7 @@ final class MovieViewController: UIViewController {
         popularButton.layer.borderWidth = 1
         popularButton.layer.borderColor = UIColor.black.cgColor
         popularButton.tag = 1
-        popularButton.addTarget(self, action: #selector(changeGenreMovie), for: .touchUpInside)
+        popularButton.addTarget(self, action: #selector(changeCategoryMovie), for: .touchUpInside)
         NSLayoutConstraint.activate([
             popularButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             popularButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 20),
@@ -99,7 +128,7 @@ final class MovieViewController: UIViewController {
         upcomingButton.layer.cornerRadius = 5
         upcomingButton.layer.borderWidth = 1
         upcomingButton.layer.borderColor = UIColor.black.cgColor
-        upcomingButton.addTarget(self, action: #selector(changeGenreMovie), for: .touchUpInside)
+        upcomingButton.addTarget(self, action: #selector(changeCategoryMovie), for: .touchUpInside)
         upcomingButton.tag = 2
         NSLayoutConstraint.activate([
             upcomingButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 20),
@@ -133,30 +162,9 @@ final class MovieViewController: UIViewController {
         tableView.bounds = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
     }
 
-    @objc private func changeGenreMovie(button: UIButton) {
+    @objc private func changeCategoryMovie(button: UIButton) {
         button.backgroundColor = .systemOrange
-
-        switch Categories(rawValue: button.tag) {
-        case .topRated:
-            viewModel?.getMovie(url: MovieViewModel.topRatedCategory)
-            popularButton.backgroundColor = .gray
-            upcomingButton.backgroundColor = .gray
-            title = Constant.topRatedCategoryTitle
-            returnStartTable()
-        case .popular:
-            viewModel?.getMovie(url: MovieViewModel.popularCategory)
-            topRatedButton.backgroundColor = .gray
-            upcomingButton.backgroundColor = .gray
-            title = Constant.popularCategoryTitle
-            returnStartTable()
-        case .upcoming:
-            viewModel?.getMovie(url: MovieViewModel.upcomingCategory)
-            topRatedButton.backgroundColor = .gray
-            popularButton.backgroundColor = .gray
-            title = Constant.upcomingCategoryTitle
-            returnStartTable()
-        default: break
-        }
+        viewModel?.updateUI(with: button.tag)
     }
 }
 
