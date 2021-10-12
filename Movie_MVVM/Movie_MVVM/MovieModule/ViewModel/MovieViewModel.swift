@@ -6,20 +6,28 @@ import Foundation
 protocol MovieViewModelProtocol: AnyObject {
     var results: [Result]? { get set }
     var reloadTable: VoidHandler? { get set }
-    var updateTopRatedCategory: VoidHandler? { get set }
-    var updatePopularCategory: VoidHandler? { get set }
-    var updateUpcomingCategory: VoidHandler? { get set }
+    var updateProps: PropsHandler? { get set }
+    var updateCategory: StringHandler? { get set }
     func updateUI(with buttonTag: Int)
 }
 
 final class MovieViewModel: MovieViewModelProtocol {
+    // MARK: Enums
+
+    private enum Constants {
+        static let topRatedCategoryTitle = "top_rated"
+        static let popularCategoryTitle = "popular"
+        static let upcomingCategoryTitle = "upcoming"
+        static let errorTitle = "Не удалось загрузить данные"
+        static let errorMessage = "Ошибка: "
+    }
+
     // MARK: Internal Properties
 
     var results: [Result]?
     var reloadTable: VoidHandler?
-    var updateTopRatedCategory: VoidHandler?
-    var updatePopularCategory: VoidHandler?
-    var updateUpcomingCategory: VoidHandler?
+    var updateProps: PropsHandler?
+    var updateCategory: StringHandler?
 
     // MARK: Private Properties
 
@@ -29,7 +37,8 @@ final class MovieViewModel: MovieViewModelProtocol {
 
     init(movieAPIService: MovieAPIServiceProtocol) {
         self.movieAPIService = movieAPIService
-        getMovies(url: movieAPIService.topRatedCategoryURL)
+        updateProps?(.initial)
+        getMovies(urlPath: Constants.topRatedCategoryTitle)
     }
 
     // MARK: Internal Methods
@@ -37,30 +46,36 @@ final class MovieViewModel: MovieViewModelProtocol {
     func updateUI(with buttonTag: Int) {
         switch buttonTag {
         case 0:
-            getMovies(url: movieAPIService.topRatedCategoryURL)
-            updateTopRatedCategory?()
+            getMovies(urlPath: Constants.topRatedCategoryTitle)
+            updateCategory?(Constants.topRatedCategoryTitle)
         case 1:
-            getMovies(url: movieAPIService.popularCategoryURL)
-            updatePopularCategory?()
+            getMovies(urlPath: Constants.popularCategoryTitle)
+            updateCategory?(Constants.popularCategoryTitle)
         case 2:
-            getMovies(url: movieAPIService.upcomingCategoryURL)
-            updateUpcomingCategory?()
+            getMovies(urlPath: Constants.upcomingCategoryTitle)
+            updateCategory?(Constants.upcomingCategoryTitle)
         default: break
         }
     }
 
     // MARK: Private Methods
 
-    private func getMovies(url: String) {
-        movieAPIService.getMovieList(url: url) { [weak self] result in
+    private func getMovies(urlPath: String) {
+        movieAPIService.getMovieList(urlPath: urlPath) { [weak self] result in
             switch result {
             case let .success(result):
-                self?.results = result
                 DispatchQueue.main.async {
+                    self?.updateProps?(.success(result))
                     self?.reloadTable?()
                 }
             case let .failure(error):
-                print(error.localizedDescription)
+                DispatchQueue.main.async {
+                    self?
+                        .updateProps?(.failure(
+                            Constants.errorTitle,
+                            Constants.errorMessage + "\(error.localizedDescription)"
+                        ))
+                }
             }
         }
     }

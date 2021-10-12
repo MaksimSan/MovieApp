@@ -4,27 +4,25 @@
 import Foundation
 
 protocol MovieAPIServiceProtocol: AnyObject {
-    var topRatedCategoryURL: String { get }
-    var popularCategoryURL: String { get }
-    var upcomingCategoryURL: String { get }
-    func getMovieList(url: String, completion: @escaping (Swift.Result<[Result], Error>) -> ())
+    func getMovieList(urlPath: String, completion: @escaping (Swift.Result<[Result], Error>) -> ())
     func getMovieDetails(movieID: Int?, completion: @escaping (Swift.Result<Details, Error>) -> ())
 }
 
 final class MovieAPIService: MovieAPIServiceProtocol {
-    // MARK: Internal Properties
+    // MARK: Enums
 
-    let topRatedCategoryURL =
-        "https://api.themoviedb.org/3/movie/top_rated?api_key=209be2942f86f39dd556564d2ad35c5c&language=ru-RU"
-    let popularCategoryURL =
-        "https://api.themoviedb.org/3/movie/popular?api_key=209be2942f86f39dd556564d2ad35c5c&language=ru-RU"
-    let upcomingCategoryURL =
-        "https://api.themoviedb.org/3/movie/upcoming?api_key=209be2942f86f39dd556564d2ad35c5c&language=ru-RU"
+    private enum URLComponentsTitles: String {
+        case scheme = "https"
+        case host = "api.themoviedb.org"
+        case path = "/3/movie/"
+        case apiKey = "api_key"
+        case apiKeyValue = "209be2942f86f39dd556564d2ad35c5c"
+        case language
+        case languageValue = "ru-RU"
+    }
 
     // MARK: Private Proeprties
 
-    private let detailsFirstPath = "https://api.themoviedb.org/3/movie/"
-    private let detailsSecondPath = "?api_key=209be2942f86f39dd556564d2ad35c5c&language=ru-RU"
     private var decoder: JSONDecoder = {
         let decoder = JSONDecoder()
         decoder.keyDecodingStrategy = .convertFromSnakeCase
@@ -33,9 +31,14 @@ final class MovieAPIService: MovieAPIServiceProtocol {
 
     // MARK: Internal Methods
 
-    func getMovieList(url: String, completion: @escaping (Swift.Result<[Result], Error>) -> ()) {
-        guard let url = URL(string: url) else { return }
-        URLSession.shared.dataTask(with: url) { data, _, _ in
+    func getMovieList(urlPath: String, completion: @escaping (Swift.Result<[Result], Error>) -> ()) {
+        guard let url = createURL(urlPath: urlPath) else { return }
+
+        URLSession.shared.dataTask(with: url) { data, _, error in
+            if let error = error {
+                completion(.failure(error))
+            }
+
             guard let usageData = data else { return }
 
             do {
@@ -48,9 +51,13 @@ final class MovieAPIService: MovieAPIServiceProtocol {
     }
 
     func getMovieDetails(movieID: Int?, completion: @escaping (Swift.Result<Details, Error>) -> ()) {
-        guard let url = URL(string: detailsFirstPath + String(movieID ?? 0) + detailsSecondPath) else { return }
+        guard let url = createURL(urlPath: String(movieID ?? 0)) else { return }
 
-        URLSession.shared.dataTask(with: url) { data, _, _ in
+        URLSession.shared.dataTask(with: url) { data, _, error in
+            if let error = error {
+                completion(.failure(error))
+            }
+
             guard let usageData = data else { return }
 
             do {
@@ -60,5 +67,19 @@ final class MovieAPIService: MovieAPIServiceProtocol {
                 completion(.failure(error))
             }
         }.resume()
+    }
+
+    // MARK: Private Methods
+
+    private func createURL(urlPath: String) -> URL? {
+        var urlComponents = URLComponents()
+        urlComponents.scheme = URLComponentsTitles.scheme.rawValue
+        urlComponents.host = URLComponentsTitles.host.rawValue
+        urlComponents.path = URLComponentsTitles.path.rawValue + urlPath
+        urlComponents.queryItems = [
+            URLQueryItem(name: URLComponentsTitles.apiKey.rawValue, value: URLComponentsTitles.apiKeyValue.rawValue),
+            URLQueryItem(name: URLComponentsTitles.language.rawValue, value: URLComponentsTitles.languageValue.rawValue)
+        ]
+        return urlComponents.url
     }
 }

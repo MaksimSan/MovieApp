@@ -27,6 +27,8 @@
 		F496CD592715A6B400F88F3C /* DetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F496CD582715A6B400F88F3C /* DetailsViewModel.swift */; };
 		F496CD5C2715A70B00F88F3C /* MovieAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F496CD5B2715A70B00F88F3C /* MovieAPIService.swift */; };
 		F496CD5E2715BA1C00F88F3C /* ImageAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F496CD5D2715BA1C00F88F3C /* ImageAPIService.swift */; };
+		F496CD602715CAE800F88F3C /* DataProps.swift in Sources */ = {isa = PBXBuildFile; fileRef = F496CD5F2715CAE800F88F3C /* DataProps.swift */; };
+		F496CD652715CF6200F88F3C /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F496CD642715CF6200F88F3C /* UIViewController+Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,6 +75,8 @@
 		F496CD582715A6B400F88F3C /* DetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsViewModel.swift; sourceTree = "<group>"; };
 		F496CD5B2715A70B00F88F3C /* MovieAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieAPIService.swift; sourceTree = "<group>"; };
 		F496CD5D2715BA1C00F88F3C /* ImageAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageAPIService.swift; sourceTree = "<group>"; };
+		F496CD5F2715CAE800F88F3C /* DataProps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataProps.swift; sourceTree = "<group>"; };
+		F496CD642715CF6200F88F3C /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -252,7 +256,9 @@
 		F492D7FF271462C600078D83 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				F492D800271462D600078D83 /* Typealiases.swift */,
+				F496CD632715CF4F00F88F3C /* Extensions */,
+				F496CD622715CF3100F88F3C /* Props */,
+				F496CD612715CF2500F88F3C /* Typealiases */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -282,6 +288,30 @@
 				F496CD5D2715BA1C00F88F3C /* ImageAPIService.swift */,
 			);
 			path = APIServices;
+			sourceTree = "<group>";
+		};
+		F496CD612715CF2500F88F3C /* Typealiases */ = {
+			isa = PBXGroup;
+			children = (
+				F492D800271462D600078D83 /* Typealiases.swift */,
+			);
+			path = Typealiases;
+			sourceTree = "<group>";
+		};
+		F496CD622715CF3100F88F3C /* Props */ = {
+			isa = PBXGroup;
+			children = (
+				F496CD5F2715CAE800F88F3C /* DataProps.swift */,
+			);
+			path = Props;
+			sourceTree = "<group>";
+		};
+		F496CD632715CF4F00F88F3C /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				F496CD642715CF6200F88F3C /* UIViewController+Extension.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -459,10 +489,12 @@
 				F492D7DE27143C8500078D83 /* OverviewTableViewCell.swift in Sources */,
 				F492D7DC27143C6A00078D83 /* TitleTableViewCell.swift in Sources */,
 				F492D7DA27143C4C00078D83 /* PosterTableViewCell.swift in Sources */,
+				F496CD652715CF6200F88F3C /* UIViewController+Extension.swift in Sources */,
 				F492D7D527143C0600078D83 /* DetailsTableViewController.swift in Sources */,
 				F496CD592715A6B400F88F3C /* DetailsViewModel.swift in Sources */,
 				F492D7E127143CAF00078D83 /* Films.swift in Sources */,
 				F492D7D827143C2B00078D83 /* FilmsTableViewCell.swift in Sources */,
+				F496CD602715CAE800F88F3C /* DataProps.swift in Sources */,
 				F496CD5C2715A70B00F88F3C /* MovieAPIService.swift in Sources */,
 				F492D7E327143CB800078D83 /* Details.swift in Sources */,
 				F492D7A127143AFC00078D83 /* AppDelegate.swift in Sources */,
