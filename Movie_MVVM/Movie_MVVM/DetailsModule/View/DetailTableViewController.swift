@@ -44,7 +44,6 @@ final class DetailTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let detail = details else { return UITableViewCell() }
         let cell = tableView.dequeueReusableCell(withIdentifier: identifires[indexPath.row], for: indexPath)
-        title = details?.title
         switch cells[indexPath.row] {
         case .poster:
             guard let posterCell = cell as? PosterTableViewCell else { return UITableViewCell() }
@@ -78,10 +77,8 @@ final class DetailTableViewController: UITableViewController {
                 string: "https://api.themoviedb.org/3/movie/\(movieID)?api_key=209be2942f86f39dd556564d2ad35c5c&language=ru-RU"
             )
         else { return }
-        URLSession.shared.dataTask(with: url) { data, response, _ in
-            guard let usageData = data,
-                  let usageResponse = response as? HTTPURLResponse else { return }
-            print("status code: \(usageResponse.statusCode)")
+        URLSession.shared.dataTask(with: url) { data, _, _ in
+            guard let usageData = data else { return }
 
             do {
                 let decoder = JSONDecoder()

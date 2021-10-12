@@ -2,7 +2,7 @@
 // Copyright © RoadMap. All rights reserved.
 
 import UIKit
-/// TitleTableViewCell
+
 final class TitleTableViewCell: UITableViewCell {
     // MARK: Static Properties
 
