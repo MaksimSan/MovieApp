@@ -4,9 +4,9 @@
 import UIKit
 
 final class DetailTableViewController: UITableViewController {
-    // MARK: Enum
+    // MARK: Enums
 
-    enum Cells {
+    private enum Cells {
         case poster
         case title
         case overview

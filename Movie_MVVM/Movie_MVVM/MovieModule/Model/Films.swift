@@ -7,7 +7,7 @@ struct Film: Decodable {
     var results: [Result]
 }
 
-// Модель результат  полученного фильма
+/// Модель результат  полученного фильма
 struct Result: Decodable {
     let posterPath: String
     let overview: String

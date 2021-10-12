@@ -9,15 +9,15 @@ protocol DetailsViewModelProtocol {
 }
 
 final class DetailsViewModel: DetailsViewModelProtocol {
-    // MARK: Private Properties
-
-    private var movieAPIService: MovieAPIServiceProtocol
-
     // MARK: Internal Properties
 
     var movieID: Int?
     var reloadTable: VoidHandler?
     var details: Details?
+
+    // MARK: Private Properties
+
+    private var movieAPIService: MovieAPIServiceProtocol
 
     // MARK: Initializers
 

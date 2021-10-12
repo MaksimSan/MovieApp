@@ -26,6 +26,7 @@
 		F492D801271462D600078D83 /* Typealiases.swift in Sources */ = {isa = PBXBuildFile; fileRef = F492D800271462D600078D83 /* Typealiases.swift */; };
 		F496CD592715A6B400F88F3C /* DetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F496CD582715A6B400F88F3C /* DetailsViewModel.swift */; };
 		F496CD5C2715A70B00F88F3C /* MovieAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F496CD5B2715A70B00F88F3C /* MovieAPIService.swift */; };
+		F496CD5E2715BA1C00F88F3C /* ImageAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F496CD5D2715BA1C00F88F3C /* ImageAPIService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -71,6 +72,7 @@
 		F492D800271462D600078D83 /* Typealiases.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Typealiases.swift; sourceTree = "<group>"; };
 		F496CD582715A6B400F88F3C /* DetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsViewModel.swift; sourceTree = "<group>"; };
 		F496CD5B2715A70B00F88F3C /* MovieAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieAPIService.swift; sourceTree = "<group>"; };
+		F496CD5D2715BA1C00F88F3C /* ImageAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageAPIService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -277,6 +279,7 @@
 			isa = PBXGroup;
 			children = (
 				F496CD5B2715A70B00F88F3C /* MovieAPIService.swift */,
+				F496CD5D2715BA1C00F88F3C /* ImageAPIService.swift */,
 			);
 			path = APIServices;
 			sourceTree = "<group>";
@@ -452,6 +455,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F496CD5E2715BA1C00F88F3C /* ImageAPIService.swift in Sources */,
 				F492D7DE27143C8500078D83 /* OverviewTableViewCell.swift in Sources */,
 				F492D7DC27143C6A00078D83 /* TitleTableViewCell.swift in Sources */,
 				F492D7DA27143C4C00078D83 /* PosterTableViewCell.swift in Sources */,

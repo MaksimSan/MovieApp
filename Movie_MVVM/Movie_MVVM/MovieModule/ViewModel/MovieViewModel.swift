@@ -14,17 +14,22 @@ protocol MovieViewModelProtocol {
 
 final class MovieViewModel: MovieViewModelProtocol {
     // MARK: Internal Properties
-    
+
     var results: [Result]?
     var reloadTable: VoidHandler?
     var updateTopRatedCategory: VoidHandler?
     var updatePopularCategory: VoidHandler?
     var updateUpcomingCategory: VoidHandler?
 
+    // MARK: Private Properties
+
+    private var movieAPIService: MovieAPIServiceProtocol
+
     // MARK: Initializers
 
-    init() {
-        getMovie(url: topRatedCategory)
+    init(movieAPIService: MovieAPIServiceProtocol) {
+        self.movieAPIService = movieAPIService
+        getMovies(url: movieAPIService.topRatedCategoryURL)
     }
 
     // MARK: Internal Methods
@@ -32,37 +37,31 @@ final class MovieViewModel: MovieViewModelProtocol {
     func updateUI(with buttonTag: Int) {
         switch buttonTag {
         case 0:
-            getMovie(url: topRatedCategory)
+            getMovies(url: movieAPIService.topRatedCategoryURL)
             updateTopRatedCategory?()
         case 1:
-            getMovie(url: popularCategory)
+            getMovies(url: movieAPIService.popularCategoryURL)
             updatePopularCategory?()
         case 2:
-            getMovie(url: upcomingCategory)
+            getMovies(url: movieAPIService.upcomingCategoryURL)
             updateUpcomingCategory?()
         default: break
         }
     }
 
-    // MARK: Private Methods
+    //MARK: Private Methods
 
-    private func getMovie(url: String) {
-        results = nil
-        guard let url = URL(string: url) else { return }
-        URLSession.shared.dataTask(with: url) { data, _, _ in
-            guard let usageData = data else { return }
-
-            do {
-                let decoder = JSONDecoder()
-                decoder.keyDecodingStrategy = .convertFromSnakeCase
-                let movieList = try decoder.decode(Film.self, from: usageData)
-                self.results = movieList.results
+    private func getMovies(url: String) {
+        movieAPIService.getMovieList(url: url) { [weak self] result in
+            switch result {
+            case let .success(result):
+                self?.results = result
                 DispatchQueue.main.async {
-                    self.reloadTable?()
+                    self?.reloadTable?()
                 }
-            } catch {
+            case let .failure(error):
                 print(error.localizedDescription)
             }
-        }.resume()
+        }
     }
 }
