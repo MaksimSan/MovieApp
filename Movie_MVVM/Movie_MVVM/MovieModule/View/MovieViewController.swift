@@ -198,8 +198,10 @@ extension MovieViewController: UITableViewDataSource {
 extension MovieViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let id = viewModel?.results?[indexPath.row].id else { return }
-        let detailTableViewController = DetailTableViewController()
-        detailTableViewController.movieID = id
-        navigationController?.pushViewController(detailTableViewController, animated: true)
+        let detailsTableViewController = DetailTableViewController()
+        let movieAPIService = MovieAPIService()
+        let detailsViewModel = DetailsViewModel(movieAPIService: movieAPIService, movieID: id)
+        detailsTableViewController.setupViewModel(viewModel: detailsViewModel)
+        navigationController?.pushViewController(detailsTableViewController, animated: true)
     }
 }

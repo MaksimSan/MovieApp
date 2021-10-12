@@ -4,7 +4,7 @@
 import Foundation
 /// Details
 struct Details: Decodable {
-    var posterPath: String?
+    let posterPath: String
     let title: String
     let overview: String
 }

@@ -21,8 +21,8 @@ final class OverviewTableViewCell: UITableViewCell {
 
     // MARK: Internal Methods
 
-    func configureCell(details: Details, indexPath: IndexPath) {
-        overviewLabel.text = details.overview
+    func configureCell(overview: String) {
+        overviewLabel.text = overview
     }
 
     // MARK: Private Methods
