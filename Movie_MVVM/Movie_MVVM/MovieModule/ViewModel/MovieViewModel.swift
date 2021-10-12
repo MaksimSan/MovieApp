@@ -10,7 +10,7 @@ protocol MovieViewModelProtocol {
 }
 
 final class MovieViewModel: MovieViewModelProtocol {
-    // MARK: Enums
+    // MARK: Static Properties
 
     static let topRatedCategory =
         "https://api.themoviedb.org/3/movie/top_rated?api_key=209be2942f86f39dd556564d2ad35c5c&language=ru-RU"
