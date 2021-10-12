@@ -3,7 +3,7 @@
 
 import Foundation
 
-protocol DetailsViewModelProtocol {
+protocol DetailsViewModelProtocol: AnyObject {
     var details: Details? { get set }
     var reloadTable: VoidHandler? { get set }
 }

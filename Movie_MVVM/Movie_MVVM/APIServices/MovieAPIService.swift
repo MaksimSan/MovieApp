@@ -3,7 +3,7 @@
 
 import Foundation
 
-protocol MovieAPIServiceProtocol {
+protocol MovieAPIServiceProtocol: AnyObject {
     var topRatedCategoryURL: String { get }
     var popularCategoryURL: String { get }
     var upcomingCategoryURL: String { get }

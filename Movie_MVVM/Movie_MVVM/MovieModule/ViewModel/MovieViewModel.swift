@@ -3,7 +3,7 @@
 
 import Foundation
 
-protocol MovieViewModelProtocol {
+protocol MovieViewModelProtocol: AnyObject {
     var results: [Result]? { get set }
     var reloadTable: VoidHandler? { get set }
     var updateTopRatedCategory: VoidHandler? { get set }
@@ -49,7 +49,7 @@ final class MovieViewModel: MovieViewModelProtocol {
         }
     }
 
-    //MARK: Private Methods
+    // MARK: Private Methods
 
     private func getMovies(url: String) {
         movieAPIService.getMovieList(url: url) { [weak self] result in
