@@ -26,7 +26,7 @@ final class MovieViewController: UIViewController {
     // MARK: Private Properties
 
     private var viewModel: MovieViewModelProtocol?
-    private var dataProps: DataProps<Result> = .initial {
+    private var dataProps: DataProps<Result> = .loading {
         didSet {
             view.layoutIfNeeded()
         }
@@ -36,10 +36,8 @@ final class MovieViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        activityIndicator.hidesWhenStopped = true
-        activityIndicator.style = .large
-        activityIndicator.center = view.center
-        view.addSubview(activityIndicator)
+        setupActivityIndicator()
+        setupNavigationBar()
         setupTableView()
         setupPopularButton()
         setupTopRatedButton()
@@ -52,21 +50,14 @@ final class MovieViewController: UIViewController {
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         switch dataProps {
-        case .initial:
-            topRatedButton.isHidden = true
-            popularButton.isHidden = true
-            upcomingButton.isHidden = true
+        case .loading:
             tableView.isHidden = true
             activityIndicator.startAnimating()
         case .success:
-            topRatedButton.isHidden = false
-            popularButton.isHidden = false
-            upcomingButton.isHidden = false
             tableView.isHidden = false
             activityIndicator.stopAnimating()
         case let .failure(errorTitle, errorMessage):
-            let alertController = showAlert(title: errorTitle, message: errorMessage, actionTitle: "OK")
-            present(alertController, animated: true)
+            showAlert(title: errorTitle, message: errorMessage, actionTitle: "OK")
         }
     }
 
@@ -167,10 +158,20 @@ final class MovieViewController: UIViewController {
         ])
     }
 
-    private func setupTableView() {
+    private func setupActivityIndicator() {
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.style = .large
+        activityIndicator.center = view.center
+        view.addSubview(activityIndicator)
+    }
+
+    private func setupNavigationBar() {
         view.backgroundColor = .white
         navigationController?.navigationBar.isTranslucent = false
         navigationController?.navigationBar.shadowImage = UIImage()
+    }
+
+    private func setupTableView() {
         view.addSubview(tableView)
         tableView.dataSource = self
         tableView.delegate = self

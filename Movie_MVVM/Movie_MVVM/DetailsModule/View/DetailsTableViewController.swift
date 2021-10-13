@@ -14,6 +14,7 @@ final class DetailTableViewController: UITableViewController {
 
     // MARK: Private Properties
 
+    private let activityIndicator = UIActivityIndicatorView()
     private let cells: [Cells] = [.poster, .title, .overview]
     private let identifires = [
         PosterTableViewCell.identifier,
@@ -21,6 +22,11 @@ final class DetailTableViewController: UITableViewController {
         OverviewTableViewCell.identifier
     ]
     private var viewModel: DetailsViewModelProtocol?
+    private var dataProps: DataProps<Details> = .loading {
+        didSet {
+            view.setNeedsLayout()
+        }
+    }
 
     // MARK: Life Cycle View Controller
 
@@ -28,6 +34,22 @@ final class DetailTableViewController: UITableViewController {
         super.viewDidLoad()
         setupTableView()
         reloadTable()
+        updateProps()
+        setupActivityIndicator()
+    }
+
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        switch dataProps {
+        case .loading:
+            tableView.isHidden = true
+            activityIndicator.startAnimating()
+        case .success:
+            tableView.isHidden = false
+            activityIndicator.stopAnimating()
+        case let .failure(errorTitle, errorMessage):
+            showAlert(title: errorTitle, message: errorMessage, actionTitle: "OK")
+        }
     }
 
     // MARK: Internal Methods
@@ -37,6 +59,19 @@ final class DetailTableViewController: UITableViewController {
     }
 
     // MARK: Private Methods
+
+    private func setupActivityIndicator() {
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.style = .large
+        activityIndicator.center = view.center
+        view.addSubview(activityIndicator)
+    }
+
+    private func updateProps() {
+        viewModel?.updateProps = { [weak self] props in
+            self?.dataProps = props
+        }
+    }
 
     private func reloadTable() {
         viewModel?.reloadTable = { [weak self] in
@@ -62,7 +97,9 @@ final class DetailTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let details = viewModel?.details else { return UITableViewCell() }
+        guard case let .success(details) = dataProps,
+              let details = details?.first else { return UITableViewCell() }
+
         let cell = tableView.dequeueReusableCell(withIdentifier: identifires[indexPath.row], for: indexPath)
         switch cells[indexPath.row] {
         case .poster:

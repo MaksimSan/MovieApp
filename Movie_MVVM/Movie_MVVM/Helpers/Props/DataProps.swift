@@ -3,7 +3,7 @@
 
 /// Пропс
 enum DataProps<T> {
-    case initial
+    case loading
     case success([T]?)
     case failure(String, String)
 }

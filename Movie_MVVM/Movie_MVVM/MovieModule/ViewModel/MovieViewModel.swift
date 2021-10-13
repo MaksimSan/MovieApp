@@ -6,7 +6,7 @@ import Foundation
 protocol MovieViewModelProtocol: AnyObject {
     var results: [Result]? { get set }
     var reloadTable: VoidHandler? { get set }
-    var updateProps: PropsHandler? { get set }
+    var updateProps: ResultHandler? { get set }
     var updateCategory: StringHandler? { get set }
     func updateUI(with buttonTag: Int)
 }
@@ -26,7 +26,7 @@ final class MovieViewModel: MovieViewModelProtocol {
 
     var results: [Result]?
     var reloadTable: VoidHandler?
-    var updateProps: PropsHandler?
+    var updateProps: ResultHandler?
     var updateCategory: StringHandler?
 
     // MARK: Private Properties
@@ -37,7 +37,7 @@ final class MovieViewModel: MovieViewModelProtocol {
 
     init(movieAPIService: MovieAPIServiceProtocol) {
         self.movieAPIService = movieAPIService
-        updateProps?(.initial)
+        updateProps?(.loading)
         getMovies(urlPath: Constants.topRatedCategoryTitle)
     }
 

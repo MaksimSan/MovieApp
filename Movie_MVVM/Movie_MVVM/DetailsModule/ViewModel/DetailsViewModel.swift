@@ -4,16 +4,23 @@
 import Foundation
 
 protocol DetailsViewModelProtocol: AnyObject {
-    var details: Details? { get set }
+    var updateProps: DetailsHandler? { get set }
     var reloadTable: VoidHandler? { get set }
 }
 
 final class DetailsViewModel: DetailsViewModelProtocol {
+    // MARK: Enums
+
+    private enum Constants {
+        static let errorTitle = "Не удалось загрузить данные"
+        static let errorMessage = "Ошибка: "
+    }
+
     // MARK: Internal Properties
 
     var movieID: Int?
     var reloadTable: VoidHandler?
-    var details: Details?
+    var updateProps: DetailsHandler?
 
     // MARK: Private Properties
 
@@ -25,6 +32,7 @@ final class DetailsViewModel: DetailsViewModelProtocol {
         self.movieAPIService = movieAPIService
         self.movieID = movieID
         getDetailsMovie()
+        updateProps?(.loading)
     }
 
     // MARK: Private Methods
@@ -33,12 +41,16 @@ final class DetailsViewModel: DetailsViewModelProtocol {
         movieAPIService.getMovieDetails(movieID: movieID) { [weak self] result in
             switch result {
             case let .success(details):
-                self?.details = details
                 DispatchQueue.main.async {
+                    self?.updateProps?(.success([details]))
                     self?.reloadTable?()
                 }
             case let .failure(error):
-                print(error.localizedDescription)
+                self?
+                    .updateProps?(.failure(
+                        Constants.errorTitle,
+                        Constants.errorMessage + "\(error.localizedDescription)"
+                    ))
             }
         }
     }

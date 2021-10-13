@@ -2,5 +2,6 @@
 // Copyright © RoadMap. All rights reserved.
 
 typealias VoidHandler = (() -> ())
-typealias PropsHandler = (DataProps<Result>) -> ()
+typealias ResultHandler = (DataProps<Result>) -> ()
+typealias DetailsHandler = (DataProps<Details>) -> ()
 typealias StringHandler = ((String) -> ())

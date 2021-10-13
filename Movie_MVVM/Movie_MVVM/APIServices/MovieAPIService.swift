@@ -42,8 +42,8 @@ final class MovieAPIService: MovieAPIServiceProtocol {
             guard let usageData = data else { return }
 
             do {
-                let movieList = try self.decoder.decode(Film.self, from: usageData)
-                completion(.success(movieList.results))
+                let movieList = try self.decoder.decode(Result.self, from: usageData)
+                completion(.success([movieList]))
             } catch {
                 completion(.failure(error))
             }
