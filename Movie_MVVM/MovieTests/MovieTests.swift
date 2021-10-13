@@ -37,9 +37,17 @@ final class MovieTests: XCTestCase {
         appCoordinator = nil
     }
 
-    func testCoordinator() {
+    func testPresentedMovieVC() {
         appCoordinator.start()
         let movieVC = navController.presentedVC
         XCTAssertTrue(movieVC is MovieViewController)
+    }
+
+    func testPresentedDetailsVC() {
+        appCoordinator.start()
+        guard let movieVC = navController.presentedVC as? MovieViewController else { return }
+        movieVC.toDetails?(Int())
+        let detailsVC = navController.presentedVC
+        XCTAssertTrue(detailsVC is DetailsTableViewController)
     }
 }
