@@ -23,6 +23,10 @@ final class MovieViewController: UIViewController {
     private let upcomingButton = UIButton()
     private let activityIndicator = UIActivityIndicatorView()
 
+    // MARK: Internal Properties
+
+    var toDetails: IntHandler?
+
     // MARK: Private Properties
 
     private var viewModel: MovieViewModelProtocol?
@@ -166,6 +170,7 @@ final class MovieViewController: UIViewController {
     }
 
     private func setupNavigationBar() {
+        title = Constants.topRatedCategoryTitle
         view.backgroundColor = .white
         navigationController?.navigationBar.isTranslucent = false
         navigationController?.navigationBar.shadowImage = UIImage()
@@ -234,11 +239,9 @@ extension MovieViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if case let .success(result) = dataProps {
             guard let id = result?[indexPath.row].id else { return }
-            let detailsTableViewController = DetailTableViewController()
-            let movieAPIService = MovieAPIService()
-            let detailsViewModel = DetailsViewModel(movieAPIService: movieAPIService, movieID: id)
-            detailsTableViewController.setupViewModel(viewModel: detailsViewModel)
-            navigationController?.pushViewController(detailsTableViewController, animated: true)
+            toDetails?(id)
+//            let assembly = AssemblyModule()
+//            navigationController?.pushViewController(assembly.createDetailsVC(movieID: id), animated: true)
         }
     }
 }

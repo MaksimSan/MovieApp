@@ -27,11 +27,13 @@ final class PosterTableViewCell: UITableViewCell {
 
     func configureCell(posterPath: String) {
         imageAPIService.getImage(posterPath: posterPath) { [weak self] result in
-            switch result {
-            case let .success(image):
-                self?.posterImageView.image = image
-            case let .failure(error):
-                print(error.localizedDescription)
+            DispatchQueue.main.async {
+                switch result {
+                case let .success(imageData):
+                    self?.posterImageView.image = UIImage(data: imageData)
+                case let .failure(error):
+                    print(error.localizedDescription)
+                }
             }
         }
     }
