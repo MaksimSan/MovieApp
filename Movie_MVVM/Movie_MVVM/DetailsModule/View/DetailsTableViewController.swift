@@ -80,6 +80,7 @@ final class DetailTableViewController: UITableViewController {
     }
 
     private func setupTableView() {
+        view.backgroundColor = .white
         tableView.allowsSelection = false
         tableView.separatorStyle = .none
         navigationController?.navigationBar.prefersLargeTitles = false

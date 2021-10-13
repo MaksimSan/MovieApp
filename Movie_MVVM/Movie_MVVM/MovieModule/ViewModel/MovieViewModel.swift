@@ -4,30 +4,28 @@
 import Foundation
 
 protocol MovieViewModelProtocol: AnyObject {
-    var results: [Result]? { get set }
     var reloadTable: VoidHandler? { get set }
     var updateProps: ResultHandler? { get set }
-    var updateCategory: StringHandler? { get set }
-    func updateUI(with buttonTag: Int)
+    var didTap: StringHandler? { get set }
+    func updateData(with buttonTag: Int)
 }
 
 final class MovieViewModel: MovieViewModelProtocol {
     // MARK: Enums
 
     private enum Constants {
-        static let topRatedCategoryTitle = "top_rated"
-        static let popularCategoryTitle = "popular"
-        static let upcomingCategoryTitle = "upcoming"
+        static let topRatedCategoryURLPath = "top_rated"
+        static let popularCategoryURLPath = "popular"
+        static let upcomingCategoryURLPath = "upcoming"
         static let errorTitle = "Не удалось загрузить данные"
         static let errorMessage = "Ошибка: "
     }
 
     // MARK: Internal Properties
 
-    var results: [Result]?
     var reloadTable: VoidHandler?
     var updateProps: ResultHandler?
-    var updateCategory: StringHandler?
+    var didTap: StringHandler?
 
     // MARK: Private Properties
 
@@ -38,22 +36,22 @@ final class MovieViewModel: MovieViewModelProtocol {
     init(movieAPIService: MovieAPIServiceProtocol) {
         self.movieAPIService = movieAPIService
         updateProps?(.loading)
-        getMovies(urlPath: Constants.topRatedCategoryTitle)
+        getMovies(urlPath: Constants.topRatedCategoryURLPath)
     }
 
     // MARK: Internal Methods
 
-    func updateUI(with buttonTag: Int) {
+    func updateData(with buttonTag: Int) {
         switch buttonTag {
         case 0:
-            getMovies(urlPath: Constants.topRatedCategoryTitle)
-            updateCategory?(Constants.topRatedCategoryTitle)
+            getMovies(urlPath: Constants.topRatedCategoryURLPath)
+            didTap?(Constants.topRatedCategoryURLPath)
         case 1:
-            getMovies(urlPath: Constants.popularCategoryTitle)
-            updateCategory?(Constants.popularCategoryTitle)
+            getMovies(urlPath: Constants.popularCategoryURLPath)
+            didTap?(Constants.popularCategoryURLPath)
         case 2:
-            getMovies(urlPath: Constants.upcomingCategoryTitle)
-            updateCategory?(Constants.upcomingCategoryTitle)
+            getMovies(urlPath: Constants.upcomingCategoryURLPath)
+            didTap?(Constants.upcomingCategoryURLPath)
         default: break
         }
     }

@@ -43,7 +43,7 @@ final class MovieViewController: UIViewController {
         setupTopRatedButton()
         setupUpcomingButton()
         reloadTable()
-        updateCategory()
+        didTapOnButton()
         updateProps()
     }
 
@@ -69,8 +69,8 @@ final class MovieViewController: UIViewController {
 
     // MARK: Private Methods
 
-    private func updateCategory() {
-        viewModel?.updateCategory = { [weak self] categoryTitle in
+    private func didTapOnButton() {
+        viewModel?.didTap = { [weak self] categoryTitle in
             switch categoryTitle {
             case Constants.topRatedCategoryURLPath:
                 self?.popularButton.backgroundColor = .gray
@@ -194,7 +194,7 @@ final class MovieViewController: UIViewController {
 
     @objc private func changeCategoryMovie(button: UIButton) {
         button.backgroundColor = .systemOrange
-        viewModel?.updateUI(with: button.tag)
+        viewModel?.updateData(with: button.tag)
     }
 }
 
