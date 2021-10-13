@@ -2,9 +2,9 @@
 // Copyright © RoadMap. All rights reserved.
 
 import Foundation
-/// Details
+/// Подробное описание конкретное фильма
 struct Details: Decodable {
-    var posterPath: String?
+    let posterPath: String
     let title: String
     let overview: String
 }

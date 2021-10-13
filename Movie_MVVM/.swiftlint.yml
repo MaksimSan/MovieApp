@@ -275,17 +275,6 @@ custom_rules:
     message: "Вместо кастомного typealias используй BoolHandler"
     severity: error
     
-  custom_string_handler:
-    name: "Используй StringHandler"
-    regex: "\\(String\\) *-> *\\( *\\)"
-    message: "Вместо (String) -> () используй StringHandler"
-    severity: error
-
-  custom_custom_string_handler:
-    name: "Используй StringHandler"
-    regex: "typealias \\w+ = (StringHandler|\\(String\\) *-> *\\( *\\))"
-    message: "Вместо кастомного typealias используй StringHandler"
-    severity: error
 
   custom_handler_names:
     name: "Нейменг блоков"

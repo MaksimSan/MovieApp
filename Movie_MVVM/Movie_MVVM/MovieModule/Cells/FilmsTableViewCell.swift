@@ -26,6 +26,10 @@ final class FilmsTableViewCell: UITableViewCell {
     private let realiseDateLabel = UILabel()
     private let ratingAvarageLabel = UILabel()
 
+    // MARK: Private Properties
+
+    private let imageAPIService = ImageAPIService()
+
     // MARK: Set Selected
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -47,13 +51,12 @@ final class FilmsTableViewCell: UITableViewCell {
         releaseDate: String?,
         ratingAvarage: Float?
     ) {
-        DispatchQueue.global().async {
-            guard let posterPath = posterPath,
-                  let url = URL(string: "https://image.tmdb.org/t/p/w500\(posterPath)"),
-                  let imageData = try? Data(contentsOf: url),
-                  let posterImage = UIImage(data: imageData) else { return }
-            DispatchQueue.main.async {
-                self.posterImageView.image = posterImage
+        imageAPIService.getImage(posterPath: posterPath ?? "") { [weak self] result in
+            switch result {
+            case let .success(image):
+                self?.posterImageView.image = image
+            case let .failure(error):
+                print(error.localizedDescription)
             }
         }
         titleLabel.text = title

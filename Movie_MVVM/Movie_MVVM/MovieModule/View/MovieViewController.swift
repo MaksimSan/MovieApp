@@ -6,41 +6,59 @@ import UIKit
 final class MovieViewController: UIViewController {
     // MARK: Enums
 
-    private enum Constant {
+    private enum Constants {
         static let topRatedCategoryTitle = "Top Rated"
         static let popularCategoryTitle = "Popular"
         static let upcomingCategoryTitle = "Upcoming"
+        static let topRatedCategoryURLPath = "top_rated"
+        static let popularCategoryURLPath = "popular"
+        static let upcomingCategoryURLPath = "upcoming"
     }
 
-    private enum Categories: Int {
-        case topRated
-        case popular
-        case upcoming
-    }
+    // MARK: Private Visual Components
+
+    private let tableView = UITableView()
+    private let topRatedButton = UIButton()
+    private let popularButton = UIButton()
+    private let upcomingButton = UIButton()
+    private let activityIndicator = UIActivityIndicatorView()
 
     // MARK: Private Properties
 
     private var viewModel: MovieViewModelProtocol?
-
-    // MARK: Private Visual Components
-
-    private var tableView = UITableView()
-    private var topRatedButton = UIButton()
-    private var popularButton = UIButton()
-    private var upcomingButton = UIButton()
+    private var dataProps: DataProps<Result> = .loading {
+        didSet {
+            view.layoutIfNeeded()
+        }
+    }
 
     // MARK: Life Cycle View Controller
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupActivityIndicator()
+        setupNavigationBar()
         setupTableView()
         setupPopularButton()
         setupTopRatedButton()
         setupUpcomingButton()
         reloadTable()
-        updateTopRated()
-        updatePopular()
-        updateUpcoming()
+        didTapOnButton()
+        updateProps()
+    }
+
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        switch dataProps {
+        case .loading:
+            tableView.isHidden = true
+            activityIndicator.startAnimating()
+        case .success:
+            tableView.isHidden = false
+            activityIndicator.stopAnimating()
+        case let .failure(errorTitle, errorMessage):
+            showAlert(title: errorTitle, message: errorMessage, actionTitle: "OK")
+        }
     }
 
     // MARK: Internal Methods
@@ -51,30 +69,32 @@ final class MovieViewController: UIViewController {
 
     // MARK: Private Methods
 
-    private func updateTopRated() {
-        viewModel?.updateTopRatedCategory = { [weak self] in
-            self?.popularButton.backgroundColor = .gray
-            self?.upcomingButton.backgroundColor = .gray
-            self?.title = Constant.topRatedCategoryTitle
-            self?.returnStartTable()
+    private func didTapOnButton() {
+        viewModel?.didTap = { [weak self] categoryTitle in
+            switch categoryTitle {
+            case Constants.topRatedCategoryURLPath:
+                self?.popularButton.backgroundColor = .gray
+                self?.upcomingButton.backgroundColor = .gray
+                self?.title = Constants.topRatedCategoryTitle
+                self?.returnStartTable()
+            case Constants.popularCategoryURLPath:
+                self?.topRatedButton.backgroundColor = .gray
+                self?.upcomingButton.backgroundColor = .gray
+                self?.title = Constants.popularCategoryTitle
+                self?.returnStartTable()
+            case Constants.upcomingCategoryURLPath:
+                self?.topRatedButton.backgroundColor = .gray
+                self?.popularButton.backgroundColor = .gray
+                self?.title = Constants.upcomingCategoryTitle
+                self?.returnStartTable()
+            default: break
+            }
         }
     }
 
-    private func updatePopular() {
-        viewModel?.updatePopularCategory = { [weak self] in
-            self?.topRatedButton.backgroundColor = .gray
-            self?.upcomingButton.backgroundColor = .gray
-            self?.title = Constant.popularCategoryTitle
-            self?.returnStartTable()
-        }
-    }
-
-    private func updateUpcoming() {
-        viewModel?.updateUpcomingCategory = { [weak self] in
-            self?.topRatedButton.backgroundColor = .gray
-            self?.popularButton.backgroundColor = .gray
-            self?.title = Constant.upcomingCategoryTitle
-            self?.returnStartTable()
+    private func updateProps() {
+        viewModel?.updateProps = { [weak self] dataProps in
+            self?.dataProps = dataProps
         }
     }
 
@@ -87,7 +107,7 @@ final class MovieViewController: UIViewController {
     private func setupTopRatedButton() {
         view.addSubview(topRatedButton)
         topRatedButton.translatesAutoresizingMaskIntoConstraints = false
-        topRatedButton.setTitle(Constant.topRatedCategoryTitle, for: .normal)
+        topRatedButton.setTitle(Constants.topRatedCategoryTitle, for: .normal)
         topRatedButton.backgroundColor = .systemOrange
         topRatedButton.layer.cornerRadius = 5
         topRatedButton.layer.borderWidth = 1
@@ -105,7 +125,7 @@ final class MovieViewController: UIViewController {
     private func setupPopularButton() {
         view.addSubview(popularButton)
         popularButton.translatesAutoresizingMaskIntoConstraints = false
-        popularButton.setTitle(Constant.popularCategoryTitle, for: .normal)
+        popularButton.setTitle(Constants.popularCategoryTitle, for: .normal)
         popularButton.backgroundColor = .gray
         popularButton.layer.cornerRadius = 5
         popularButton.layer.borderWidth = 1
@@ -123,7 +143,7 @@ final class MovieViewController: UIViewController {
     private func setupUpcomingButton() {
         view.addSubview(upcomingButton)
         upcomingButton.translatesAutoresizingMaskIntoConstraints = false
-        upcomingButton.setTitle(Constant.upcomingCategoryTitle, for: .normal)
+        upcomingButton.setTitle(Constants.upcomingCategoryTitle, for: .normal)
         upcomingButton.backgroundColor = .gray
         upcomingButton.layer.cornerRadius = 5
         upcomingButton.layer.borderWidth = 1
@@ -138,10 +158,20 @@ final class MovieViewController: UIViewController {
         ])
     }
 
-    private func setupTableView() {
+    private func setupActivityIndicator() {
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.style = .large
+        activityIndicator.center = view.center
+        view.addSubview(activityIndicator)
+    }
+
+    private func setupNavigationBar() {
         view.backgroundColor = .white
         navigationController?.navigationBar.isTranslucent = false
         navigationController?.navigationBar.shadowImage = UIImage()
+    }
+
+    private func setupTableView() {
         view.addSubview(tableView)
         tableView.dataSource = self
         tableView.delegate = self
@@ -164,7 +194,7 @@ final class MovieViewController: UIViewController {
 
     @objc private func changeCategoryMovie(button: UIButton) {
         button.backgroundColor = .systemOrange
-        viewModel?.updateUI(with: button.tag)
+        viewModel?.updateData(with: button.tag)
     }
 }
 
@@ -172,8 +202,11 @@ final class MovieViewController: UIViewController {
 
 extension MovieViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let countFilms = viewModel?.results?.count else { return Int() }
-        return countFilms
+        if case let .success(result) = dataProps {
+            guard let countFilms = result?.count else { return Int() }
+            return countFilms
+        }
+        return 0
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -181,13 +214,15 @@ extension MovieViewController: UITableViewDataSource {
             withIdentifier: FilmsTableViewCell.identifier,
             for: indexPath
         ) as? FilmsTableViewCell else { return UITableViewCell() }
-        cell.configureCell(
-            posterPath: viewModel?.results?[indexPath.row].posterPath,
-            title: viewModel?.results?[indexPath.row].title,
-            overview: viewModel?.results?[indexPath.row].overview,
-            releaseDate: viewModel?.results?[indexPath.row].releaseDate,
-            ratingAvarage: viewModel?.results?[indexPath.row].voteAverage
-        )
+        if case let .success(result) = dataProps {
+            cell.configureCell(
+                posterPath: result?[indexPath.row].posterPath,
+                title: result?[indexPath.row].title,
+                overview: result?[indexPath.row].overview,
+                releaseDate: result?[indexPath.row].releaseDate,
+                ratingAvarage: result?[indexPath.row].voteAverage
+            )
+        }
         cell.selectionStyle = .none
         return cell
     }
@@ -197,9 +232,13 @@ extension MovieViewController: UITableViewDataSource {
 
 extension MovieViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let id = viewModel?.results?[indexPath.row].id else { return }
-        let detailTableViewController = DetailTableViewController()
-        detailTableViewController.movieID = id
-        navigationController?.pushViewController(detailTableViewController, animated: true)
+        if case let .success(result) = dataProps {
+            guard let id = result?[indexPath.row].id else { return }
+            let detailsTableViewController = DetailTableViewController()
+            let movieAPIService = MovieAPIService()
+            let detailsViewModel = DetailsViewModel(movieAPIService: movieAPIService, movieID: id)
+            detailsTableViewController.setupViewModel(viewModel: detailsViewModel)
+            navigationController?.pushViewController(detailsTableViewController, animated: true)
+        }
     }
 }

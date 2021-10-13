@@ -21,8 +21,8 @@ final class TitleTableViewCell: UITableViewCell {
 
     // MARK: Internal Methods
 
-    func configureCell(details: Details, indexPath: IndexPath) {
-        titleMovie.text = details.title
+    func configureCell(title: String) {
+        titleMovie.text = title
     }
 
     // MARK: Private Methods
