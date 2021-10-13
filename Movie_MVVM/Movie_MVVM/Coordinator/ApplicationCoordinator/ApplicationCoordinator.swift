@@ -9,6 +9,7 @@ final class ApplicationCoordinator: BaseCoordinator {
 
     required init(assemblyModule: AssemblyModuleProtocol, navController: UINavigationController? = nil) {
         self.assemblyModule = assemblyModule
+        self.navController = navController
         super.init(assemblyModule: assemblyModule, navController: navController)
     }
 

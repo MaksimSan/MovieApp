@@ -25,9 +25,14 @@ final class MovieCoordinator: BaseCoordinator {
             self?.showDetailsModule(movieID: movieID)
         }
 
-        let navController = UINavigationController(rootViewController: movieVC)
-        setAsRoot(navController)
-        self.navController = navController
+        if navController == nil {
+            let navController = UINavigationController(rootViewController: movieVC)
+            self.navController = navController
+            setAsRoot(navController)
+        } else if let navController = navController {
+            navController.pushViewController(movieVC, animated: true)
+            setAsRoot(navController)
+        }
     }
 
     private func showDetailsModule(movieID: Int) {
