@@ -42,10 +42,8 @@ final class DetailTableViewController: UITableViewController {
         super.viewWillLayoutSubviews()
         switch dataProps {
         case .loading:
-            tableView.isHidden = true
             activityIndicator.startAnimating()
         case .success:
-            tableView.isHidden = false
             activityIndicator.stopAnimating()
         case let .failure(errorTitle, errorMessage):
             showAlert(title: errorTitle, message: errorMessage, actionTitle: "OK")
@@ -80,7 +78,6 @@ final class DetailTableViewController: UITableViewController {
     }
 
     private func setupTableView() {
-        view.backgroundColor = .white
         tableView.allowsSelection = false
         tableView.separatorStyle = .none
         navigationController?.navigationBar.prefersLargeTitles = false
