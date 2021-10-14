@@ -56,8 +56,8 @@ final class FilmsTableViewCell: UITableViewCell {
                 switch result {
                 case let .success(imageData):
                     self?.posterImageView.image = UIImage(data: imageData)
-                case let .failure(error):
-                    print(error.localizedDescription)
+                case .failure:
+                    self?.posterImageView.image = UIImage(systemName: Constant.placeholderPosterImage)
                 }
             }
         }
@@ -69,7 +69,7 @@ final class FilmsTableViewCell: UITableViewCell {
 
     override func prepareForReuse() {
         super.prepareForReuse()
-        posterImageView.image = nil
+        posterImageView.image = UIImage(systemName: Constant.placeholderPosterImage)
     }
 
     // MARK: Private Methods
@@ -168,10 +168,7 @@ final class FilmsTableViewCell: UITableViewCell {
         mainView.addSubview(posterImageView)
         posterImageView.translatesAutoresizingMaskIntoConstraints = false
         posterImageView.contentMode = .scaleToFill
-        if posterImageView.image == nil {
-            posterImageView.tintColor = .gray
-            posterImageView.image = UIImage(systemName: Constant.placeholderPosterImage)
-        }
+        posterImageView.tintColor = .gray
         NSLayoutConstraint.activate([
             posterImageView.topAnchor.constraint(equalTo: mainView.topAnchor),
             posterImageView.leadingAnchor.constraint(equalTo: mainView.leadingAnchor),
