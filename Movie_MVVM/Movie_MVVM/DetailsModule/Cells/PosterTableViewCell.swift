@@ -15,6 +15,7 @@ final class PosterTableViewCell: UITableViewCell {
     // MARK: Private Properties
 
     private let imageAPIService = ImageAPIService()
+    private let placeholderImage = "film"
 
     // MARK: Set Selected
 
@@ -27,11 +28,13 @@ final class PosterTableViewCell: UITableViewCell {
 
     func configureCell(posterPath: String) {
         imageAPIService.getImage(posterPath: posterPath) { [weak self] result in
-            switch result {
-            case let .success(image):
-                self?.posterImageView.image = image
-            case let .failure(error):
-                print(error.localizedDescription)
+            DispatchQueue.main.async {
+                switch result {
+                case let .success(imageData):
+                    self?.posterImageView.image = UIImage(data: imageData)
+                case .failure:
+                    self?.posterImageView.image = UIImage(systemName: self?.placeholderImage ?? "")
+                }
             }
         }
     }
@@ -40,6 +43,7 @@ final class PosterTableViewCell: UITableViewCell {
 
     private func setupImageView() {
         addSubview(posterImageView)
+        posterImageView.tintColor = .gray
         posterImageView.contentMode = .scaleAspectFill
         posterImageView.translatesAutoresizingMaskIntoConstraints = false
         posterImageView.clipsToBounds = true

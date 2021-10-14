@@ -52,11 +52,13 @@ final class FilmsTableViewCell: UITableViewCell {
         ratingAvarage: Float?
     ) {
         imageAPIService.getImage(posterPath: posterPath ?? "") { [weak self] result in
-            switch result {
-            case let .success(image):
-                self?.posterImageView.image = image
-            case let .failure(error):
-                print(error.localizedDescription)
+            DispatchQueue.main.async {
+                switch result {
+                case let .success(imageData):
+                    self?.posterImageView.image = UIImage(data: imageData)
+                case .failure:
+                    self?.posterImageView.image = UIImage(systemName: Constant.placeholderPosterImage)
+                }
             }
         }
         titleLabel.text = title
@@ -67,7 +69,7 @@ final class FilmsTableViewCell: UITableViewCell {
 
     override func prepareForReuse() {
         super.prepareForReuse()
-        posterImageView.image = nil
+        posterImageView.image = UIImage(systemName: Constant.placeholderPosterImage)
     }
 
     // MARK: Private Methods
@@ -166,10 +168,7 @@ final class FilmsTableViewCell: UITableViewCell {
         mainView.addSubview(posterImageView)
         posterImageView.translatesAutoresizingMaskIntoConstraints = false
         posterImageView.contentMode = .scaleToFill
-        if posterImageView.image == nil {
-            posterImageView.tintColor = .gray
-            posterImageView.image = UIImage(systemName: Constant.placeholderPosterImage)
-        }
+        posterImageView.tintColor = .gray
         NSLayoutConstraint.activate([
             posterImageView.topAnchor.constraint(equalTo: mainView.topAnchor),
             posterImageView.leadingAnchor.constraint(equalTo: mainView.leadingAnchor),

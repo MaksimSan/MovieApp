@@ -3,7 +3,7 @@
 
 import UIKit
 
-final class DetailTableViewController: UITableViewController {
+final class DetailsTableViewController: UITableViewController {
     // MARK: Enums
 
     private enum Cells {

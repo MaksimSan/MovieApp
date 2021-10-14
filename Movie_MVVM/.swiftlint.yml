@@ -251,18 +251,6 @@ custom_rules:
     message: "Вместо кастомного typealias используй OptionalErrorHandler"
     severity: error
     
-  custom_int_handler:
-    name: "Используй IntHandler"
-    regex: "\\(Int\\) *-> *\\( *\\)"
-    message: "Вместо (Int) -> () используй IntHandler"
-    severity: error
-
-  custom_custom_int_handler:
-    name: "Используй IntHandler"
-    regex: "typealias \\w+ = (IntHandler|\\(Int\\) *-> *\\( *\\))"
-    message: "Вместо кастомного typealias используй IntHandler"
-    severity: error
-    
   custom_bool_handler:
     name: "Используй BoolHandler"
     regex: "\\(Bool\\) *-> *\\( *\\)"

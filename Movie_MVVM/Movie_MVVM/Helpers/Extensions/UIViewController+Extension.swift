@@ -8,7 +8,6 @@ extension UIViewController {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let alertAction = UIAlertAction(title: actionTitle, style: .default)
         alertController.addAction(alertAction)
-//        return alertController
         present(alertController, animated: true)
     }
 }
