@@ -14,7 +14,7 @@ final class PosterTableViewCell: UITableViewCell {
 
     // MARK: Private Properties
 
-    private let imageAPIService = ImageAPIService()
+    private let imageService = ImageService()
     private let placeholderImage = "film"
 
     // MARK: Set Selected
@@ -27,13 +27,14 @@ final class PosterTableViewCell: UITableViewCell {
     // MARK: Internal Methods
 
     func configureCell(posterPath: String) {
-        imageAPIService.getImage(posterPath: posterPath) { [weak self] result in
+        imageService.getImage(posterPath: posterPath) { [weak self] result in
+            guard let self = self else { return }
             DispatchQueue.main.async {
                 switch result {
-                case let .success(imageData):
-                    self?.posterImageView.image = UIImage(data: imageData)
+                case let .success(image):
+                    self.posterImageView.image = image
                 case .failure:
-                    self?.posterImageView.image = UIImage(systemName: self?.placeholderImage ?? "")
+                    self.posterImageView.image = UIImage(systemName: self.placeholderImage)
                 }
             }
         }

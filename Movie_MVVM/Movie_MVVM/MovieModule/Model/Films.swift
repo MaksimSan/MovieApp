@@ -2,17 +2,19 @@
 // Copyright © RoadMap. All rights reserved.
 
 import Foundation
-/// Модель фильмов
+import RealmSwift
+
+/// Фильм
 struct Film: Decodable {
     var results: [Result]
 }
 
-/// Модель результат  полученного фильма
-struct Result: Decodable {
-    let posterPath: String
-    let overview: String
-    let title: String
-    let releaseDate: String?
-    let id: Int?
-    let voteAverage: Float?
+final class Result: Object, Decodable {
+    @objc dynamic var posterPath = String()
+    @objc dynamic var overview = String()
+    @objc dynamic var title = String()
+    @objc dynamic var releaseDate = String()
+    @objc dynamic var id = Int()
+    @objc dynamic var voteAverage = Float()
+    @objc dynamic var category: String?
 }

@@ -2,8 +2,8 @@
 // Copyright © RoadMap. All rights reserved.
 
 import UIKit
-/// SceneDelegate
-class SceneDelegate: UIResponder, UIWindowSceneDelegate {
+
+final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
     var applicationCoordinator: ApplicationCoordinator?
 

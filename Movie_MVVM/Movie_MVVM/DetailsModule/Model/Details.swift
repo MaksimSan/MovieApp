@@ -2,9 +2,11 @@
 // Copyright © RoadMap. All rights reserved.
 
 import Foundation
-/// Подробное описание конкретное фильма
-struct Details: Decodable {
-    let posterPath: String
-    let title: String
-    let overview: String
+import RealmSwift
+
+final class Details: Object, Decodable {
+    @objc dynamic var posterPath = String()
+    @objc dynamic var title = String()
+    @objc dynamic var overview = String()
+    @objc dynamic var movieID: String?
 }
