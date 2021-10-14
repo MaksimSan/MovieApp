@@ -5,9 +5,9 @@ import UIKit
 
 /// Базовый координатор, который определяет базовые методы для остальных координаторов
 class BaseCoordinator {
-    var childCoordinators: [BaseCoordinator] = []
+    private var childCoordinators: [BaseCoordinator] = []
 
-    required init(assemblyModule: AssemblyModuleProtocol, navController: UINavigationController? = nil) {}
+    required init(assemblyModule: AssemblyModuleProtocol, navController: UINavigationController) {}
 
     func start() {}
 

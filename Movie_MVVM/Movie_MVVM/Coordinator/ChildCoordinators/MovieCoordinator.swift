@@ -4,11 +4,11 @@
 import UIKit
 
 final class MovieCoordinator: BaseCoordinator {
-    var navController: UINavigationController?
     var onFinishFlow: VoidHandler?
-    var assemblyModule: AssemblyModuleProtocol
+    private var navController: UINavigationController
+    private var assemblyModule: AssemblyModuleProtocol
 
-    required init(assemblyModule: AssemblyModuleProtocol, navController: UINavigationController? = nil) {
+    required init(assemblyModule: AssemblyModuleProtocol, navController: UINavigationController) {
         self.assemblyModule = assemblyModule
         self.navController = navController
         super.init(assemblyModule: assemblyModule, navController: navController)
@@ -25,18 +25,12 @@ final class MovieCoordinator: BaseCoordinator {
             self?.showDetailsModule(movieID: movieID)
         }
 
-        if navController == nil {
-            let navController = UINavigationController(rootViewController: movieVC)
-            self.navController = navController
-            setAsRoot(navController)
-        } else if let navController = navController {
-            navController.pushViewController(movieVC, animated: true)
-            setAsRoot(navController)
-        }
+        navController.pushViewController(movieVC, animated: true)
+        setAsRoot(navController)
     }
 
     private func showDetailsModule(movieID: Int) {
         let detailVC = assemblyModule.createDetailsVC(movieID: movieID)
-        navController?.pushViewController(detailVC, animated: true)
+        navController.pushViewController(detailVC, animated: true)
     }
 }

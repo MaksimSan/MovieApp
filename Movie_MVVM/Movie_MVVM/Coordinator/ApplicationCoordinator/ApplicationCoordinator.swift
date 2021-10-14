@@ -4,10 +4,10 @@
 import UIKit
 
 final class ApplicationCoordinator: BaseCoordinator {
-    var assemblyModule: AssemblyModuleProtocol
-    var navController: UINavigationController?
+    private var assemblyModule: AssemblyModuleProtocol
+    private var navController: UINavigationController
 
-    required init(assemblyModule: AssemblyModuleProtocol, navController: UINavigationController? = nil) {
+    required init(assemblyModule: AssemblyModuleProtocol, navController: UINavigationController) {
         self.assemblyModule = assemblyModule
         self.navController = navController
         super.init(assemblyModule: assemblyModule, navController: navController)

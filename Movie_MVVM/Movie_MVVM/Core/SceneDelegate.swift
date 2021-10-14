@@ -13,7 +13,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window.makeKeyAndVisible()
         self.window = window
 
-        applicationCoordinator = ApplicationCoordinator(assemblyModule: AssemblyModule())
+        applicationCoordinator = ApplicationCoordinator(
+            assemblyModule: AssemblyModule(),
+            navController: UINavigationController()
+        )
         applicationCoordinator?.start()
     }
 }
