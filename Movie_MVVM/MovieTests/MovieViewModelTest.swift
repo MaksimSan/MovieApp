@@ -32,6 +32,7 @@ final class MockMovieAPIService: MovieAPIServiceProtocol {
 
 final class MovieViewModelTest: XCTestCase {
     var mockAPIService: MockMovieAPIService!
+    var viewModel: MovieViewModel!
 
     override func tearDownWithError() throws {
         mockAPIService = nil
@@ -66,5 +67,19 @@ final class MovieViewModelTest: XCTestCase {
             }
         }
         XCTAssertTrue(catchResult.isEmpty)
+    }
+
+    func testGetMoviesFromDatabase() {
+        viewModel = MovieViewModel(movieAPIService: MovieAPIService(), repository: RealmRepository())
+        viewModel.updateData(with: Int())
+        let expectation = XCTestExpectation(description: "Test")
+        viewModel.updateProps = { result in
+            if case let .success(result) = result {
+                XCTAssertNotNil(result)
+                expectation.fulfill()
+            }
+        }
+
+        wait(for: [expectation], timeout: 10)
     }
 }
