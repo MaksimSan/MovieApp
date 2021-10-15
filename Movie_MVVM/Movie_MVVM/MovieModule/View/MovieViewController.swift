@@ -73,6 +73,8 @@ final class MovieViewController: UIViewController {
 
     // MARK: Private Methods
 
+    private func changeProps() {}
+
     private func didTapOnButton() {
         viewModel?.didTap = { [weak self] categoryTitle in
             switch categoryTitle {
@@ -240,8 +242,6 @@ extension MovieViewController: UITableViewDelegate {
         if case let .success(result) = dataProps {
             guard let id = result?[indexPath.row].id else { return }
             toDetails?(id)
-//            let assembly = AssemblyModule()
-//            navigationController?.pushViewController(assembly.createDetailsVC(movieID: id), animated: true)
         }
     }
 }

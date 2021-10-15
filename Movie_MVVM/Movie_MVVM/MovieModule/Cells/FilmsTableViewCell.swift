@@ -28,7 +28,7 @@ final class FilmsTableViewCell: UITableViewCell {
 
     // MARK: Private Properties
 
-    private let imageAPIService = ImageAPIService()
+    private let imageService = ImageService()
 
     // MARK: Set Selected
 
@@ -51,11 +51,11 @@ final class FilmsTableViewCell: UITableViewCell {
         releaseDate: String?,
         ratingAvarage: Float?
     ) {
-        imageAPIService.getImage(posterPath: posterPath ?? "") { [weak self] result in
+        imageService.getImage(posterPath: posterPath ?? "") { [weak self] result in
             DispatchQueue.main.async {
                 switch result {
-                case let .success(imageData):
-                    self?.posterImageView.image = UIImage(data: imageData)
+                case let .success(image):
+                    self?.posterImageView.image = image
                 case .failure:
                     self?.posterImageView.image = UIImage(systemName: Constant.placeholderPosterImage)
                 }

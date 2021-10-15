@@ -34,8 +34,8 @@ final class DetailsTableViewController: UITableViewController {
         super.viewDidLoad()
         setupTableView()
         reloadTable()
-        updateProps()
         setupActivityIndicator()
+        updateProps()
     }
 
     override func viewWillLayoutSubviews() {
