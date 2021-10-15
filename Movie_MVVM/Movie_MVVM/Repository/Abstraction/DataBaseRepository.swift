@@ -5,15 +5,11 @@ import Foundation
 
 /// Абстракция над репозиторием
 class DataBaseRepository<DataBaseEntity>: RepositoryProtocol {
-    func get(predicate: NSPredicate) -> [DataBaseEntity]? {
+    func get(argumentPredicateOne: String, argumentPredicateTwo: String) -> [DataBaseEntity]? {
         fatalError("Override required")
     }
 
     func save(object: [DataBaseEntity]) {
-        fatalError("Override required")
-    }
-
-    func createPredicate(argumentOne: String, argumentTwo: String) -> NSPredicate {
         fatalError("Override required")
     }
 }

@@ -5,7 +5,8 @@ import Foundation
 import RealmSwift
 
 final class RealmRepository<RealmEntity: Object>: DataBaseRepository<RealmEntity> {
-    override func get(predicate: NSPredicate) -> [RealmEntity]? {
+    override func get(argumentPredicateOne: String, argumentPredicateTwo: String) -> [RealmEntity]? {
+        let predicate = NSPredicate(format: "\(argumentPredicateOne) == %@", argumentPredicateTwo)
         do {
             let realm = try Realm()
             let objects = realm.objects(RealmEntity.self).filter(predicate)
@@ -28,9 +29,5 @@ final class RealmRepository<RealmEntity: Object>: DataBaseRepository<RealmEntity
         } catch {
             print(error.localizedDescription)
         }
-    }
-
-    override func createPredicate(argumentOne: String, argumentTwo: String) -> NSPredicate {
-        NSPredicate(format: "\(argumentOne) == %@", argumentTwo)
     }
 }

@@ -64,8 +64,7 @@ final class MovieViewModel: MovieViewModelProtocol {
 
     private func getMovies(urlPath: String) {
         results = nil
-        let predicate = repository.createPredicate(argumentOne: Constants.categoryTitle, argumentTwo: urlPath)
-        results = repository.get(predicate: predicate)
+        results = repository.get(argumentPredicateOne: Constants.categoryTitle, argumentPredicateTwo: urlPath)
 
         if results == nil {
             movieAPIService.getMovieList(urlPath: urlPath) { [weak self] result in
@@ -75,7 +74,10 @@ final class MovieViewModel: MovieViewModelProtocol {
                     result.forEach { $0.category = urlPath }
                     DispatchQueue.main.async {
                         self.repository.save(object: result)
-                        self.results = self.repository.get(predicate: predicate)
+                        self.results = self.repository.get(
+                            argumentPredicateOne: Constants.categoryTitle,
+                            argumentPredicateTwo: urlPath
+                        )
                         self.updateProps?(.success(self.results))
                         self.reloadTable?()
                     }
@@ -91,8 +93,10 @@ final class MovieViewModel: MovieViewModelProtocol {
                 }
             }
         } else {
-            updateProps?(.success(results))
-            reloadTable?()
+            DispatchQueue.main.async {
+                self.updateProps?(.success(self.results))
+                self.reloadTable?()
+            }
         }
     }
 }

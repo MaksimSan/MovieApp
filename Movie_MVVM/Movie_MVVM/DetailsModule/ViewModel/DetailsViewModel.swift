@@ -42,11 +42,10 @@ final class DetailsViewModel: DetailsViewModelProtocol {
     // MARK: Private Methods
 
     private func getDetailsMovie() {
-        let predicate = repository.createPredicate(
-            argumentOne: Constants.movieIDTitle,
-            argumentTwo: String(movieID ?? 0)
-        )
-        details = repository.get(predicate: predicate)?.first
+        details = repository.get(
+            argumentPredicateOne: Constants.movieIDTitle,
+            argumentPredicateTwo: String(movieID ?? 0)
+        )?.first
         if details == nil {
             movieAPIService.getMovieDetails(movieID: movieID) { [weak self] result in
                 guard let self = self else { return }
@@ -55,7 +54,10 @@ final class DetailsViewModel: DetailsViewModelProtocol {
                     detail.movieID = String(self.movieID ?? 0)
                     DispatchQueue.main.async {
                         self.repository.save(object: [detail])
-                        self.details = self.repository.get(predicate: predicate)?.first
+                        self.details = self.repository.get(
+                            argumentPredicateOne: Constants.movieIDTitle,
+                            argumentPredicateTwo: String(self.movieID ?? 0)
+                        )?.first
                         guard let details = self.details else { return }
                         self.updateProps?(.success([details]))
                         self.reloadTable?()
