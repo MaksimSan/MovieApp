@@ -13,6 +13,7 @@ final class MovieViewController: UIViewController {
         static let topRatedCategoryURLPath = "top_rated"
         static let popularCategoryURLPath = "popular"
         static let upcomingCategoryURLPath = "upcoming"
+        static let tableIdentifier = "Table in First Screen"
     }
 
     // MARK: Private Visual Components
@@ -112,6 +113,7 @@ final class MovieViewController: UIViewController {
 
     private func setupTopRatedButton() {
         view.addSubview(topRatedButton)
+        topRatedButton.accessibilityIdentifier = Constants.topRatedCategoryTitle
         topRatedButton.translatesAutoresizingMaskIntoConstraints = false
         topRatedButton.setTitle(Constants.topRatedCategoryTitle, for: .normal)
         topRatedButton.backgroundColor = .systemOrange
@@ -130,6 +132,7 @@ final class MovieViewController: UIViewController {
 
     private func setupPopularButton() {
         view.addSubview(popularButton)
+        popularButton.accessibilityIdentifier = Constants.popularCategoryTitle
         popularButton.translatesAutoresizingMaskIntoConstraints = false
         popularButton.setTitle(Constants.popularCategoryTitle, for: .normal)
         popularButton.backgroundColor = .gray
@@ -148,6 +151,7 @@ final class MovieViewController: UIViewController {
 
     private func setupUpcomingButton() {
         view.addSubview(upcomingButton)
+        upcomingButton.accessibilityIdentifier = Constants.upcomingCategoryTitle
         upcomingButton.translatesAutoresizingMaskIntoConstraints = false
         upcomingButton.setTitle(Constants.upcomingCategoryTitle, for: .normal)
         upcomingButton.backgroundColor = .gray
@@ -180,6 +184,7 @@ final class MovieViewController: UIViewController {
 
     private func setupTableView() {
         view.addSubview(tableView)
+        tableView.accessibilityIdentifier = Constants.tableIdentifier
         tableView.dataSource = self
         tableView.delegate = self
         tableView.translatesAutoresizingMaskIntoConstraints = false

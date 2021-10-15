@@ -26,7 +26,18 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      shouldUseLaunchSchemeArgsEnv = "YES">
+      shouldUseLaunchSchemeArgsEnv = "YES"
+      codeCoverageEnabled = "YES"
+      onlyGenerateCoverageForSpecifiedTargets = "YES">
+      <CodeCoverageTargets>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "F492D79C27143AFC00078D83"
+            BuildableName = "Movie_MVVM.app"
+            BlueprintName = "Movie_MVVM"
+            ReferencedContainer = "container:Movie_MVVM.xcodeproj">
+         </BuildableReference>
+      </CodeCoverageTargets>
       <Testables>
          <TestableReference
             skipped = "NO">
@@ -35,6 +46,16 @@
                BlueprintIdentifier = "F47778E62717604A00E6F236"
                BuildableName = "MovieTests.xctest"
                BlueprintName = "MovieTests"
+               ReferencedContainer = "container:Movie_MVVM.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "F4A5A37427199DBE00DD5A4C"
+               BuildableName = "MovieUITest.xctest"
+               BlueprintName = "MovieUITest"
                ReferencedContainer = "container:Movie_MVVM.xcodeproj">
             </BuildableReference>
          </TestableReference>
