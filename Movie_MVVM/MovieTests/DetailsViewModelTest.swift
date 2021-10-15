@@ -33,7 +33,6 @@ final class MockDetailsMovieAPIService: MovieAPIServiceProtocol {
 
 final class DetailsMovieViewModelTest: XCTestCase {
     var mockAPIService: MockDetailsMovieAPIService!
-    var viewModel: DetailsViewModel!
 
     override func tearDownWithError() throws {
         mockAPIService = nil
