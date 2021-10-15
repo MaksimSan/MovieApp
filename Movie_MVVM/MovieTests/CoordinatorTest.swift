@@ -1,4 +1,4 @@
-// MovieTests.swift
+// CoordinatorTest.swift
 // Copyright © RoadMap. All rights reserved.
 
 //
@@ -20,7 +20,7 @@ final class MockNavigationController: UINavigationController {
     }
 }
 
-final class MovieTests: XCTestCase {
+final class CoordinatorTest: XCTestCase {
     var appCoordinator: ApplicationCoordinator!
     var navController: MockNavigationController!
     var assembly: AssemblyModuleProtocol!
