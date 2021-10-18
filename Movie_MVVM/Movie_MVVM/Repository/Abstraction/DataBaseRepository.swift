@@ -12,4 +12,8 @@ class DataBaseRepository<DataBaseEntity>: RepositoryProtocol {
     func save(object: [DataBaseEntity]) {
         fatalError("Override required")
     }
+
+    func delete() {
+        fatalError("Override required")
+    }
 }

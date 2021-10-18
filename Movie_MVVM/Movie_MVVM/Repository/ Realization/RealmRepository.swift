@@ -30,4 +30,16 @@ final class RealmRepository<RealmEntity: Object>: DataBaseRepository<RealmEntity
             print(error.localizedDescription)
         }
     }
+
+    override func delete() {
+        do {
+            let realm = try Realm()
+            try realm.write {
+                let realmObject = realm.objects(RealmEntity.self)
+                realm.delete(realmObject)
+            }
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
 }

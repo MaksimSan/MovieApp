@@ -39,6 +39,7 @@ final class MovieViewModel: MovieViewModelProtocol {
     init(movieAPIService: MovieAPIServiceProtocol, repository: DataBaseRepository<Result>) {
         self.movieAPIService = movieAPIService
         self.repository = repository
+        repository.delete()
         updateProps?(.loading)
         getMovies(urlPath: Constants.topRatedCategoryURLPath)
     }

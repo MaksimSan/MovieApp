@@ -12,6 +12,10 @@ final class TitleTableViewCell: UITableViewCell {
 
     private let titleMovie = UILabel()
 
+    // MARK: Private Properties
+
+    private let titleIdentifier = "Title Details"
+
     // MARK: Set Selected
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -29,6 +33,7 @@ final class TitleTableViewCell: UITableViewCell {
 
     private func setupTitleLabel() {
         addSubview(titleMovie)
+        titleMovie.accessibilityIdentifier = titleIdentifier
         titleMovie.textAlignment = .center
         titleMovie.font = UIFont.boldSystemFont(ofSize: 18)
         titleMovie.translatesAutoresizingMaskIntoConstraints = false
