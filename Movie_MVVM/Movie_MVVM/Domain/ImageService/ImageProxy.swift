@@ -1,13 +1,9 @@
-// Proxy.swift
+// ImageProxy.swift
 // Copyright © RoadMap. All rights reserved.
 
 import UIKit
 
-protocol ProxyProtocol {
-    func loadImage(posterPath: String, completion: @escaping (Swift.Result<UIImage, Error>) -> Void)
-}
-
-final class Proxy: ProxyProtocol {
+final class ImageProxy: ImageProxyProtocol {
     // MARK: - Private Properties
 
     private let imageAPIService: ImageAPIServiceProtocol

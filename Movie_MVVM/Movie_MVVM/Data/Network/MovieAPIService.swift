@@ -3,11 +3,6 @@
 
 import Foundation
 
-protocol MovieAPIServiceProtocol: AnyObject {
-    func getMovieList(urlPath: String, completion: @escaping (Swift.Result<[Result], Error>) -> ())
-    func getMovieDetails(movieID: Int?, completion: @escaping (Swift.Result<Details, Error>) -> ())
-}
-
 final class MovieAPIService: MovieAPIServiceProtocol {
     // MARK: Enums
 
