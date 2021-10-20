@@ -3,10 +3,6 @@
 
 import Foundation
 
-protocol ImageAPIServiceProtocol: AnyObject {
-    func getImage(posterPath: String, completion: @escaping (Swift.Result<Data, Error>) -> ())
-}
-
 final class ImageAPIService: ImageAPIServiceProtocol {
     private let imageURL = "https://image.tmdb.org/t/p/w500"
 

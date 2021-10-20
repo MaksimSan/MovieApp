@@ -3,11 +3,6 @@
 
 import UIKit
 
-protocol CacheImageServiceProtocol {
-    func saveImageToCache(posterPath: String, image: UIImage)
-    func getImageFromCache(posterPath: String) -> UIImage?
-}
-
 final class CacheImageService: CacheImageServiceProtocol {
     // MARK: - Private Properties
 
