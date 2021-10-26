@@ -1,5 +1,5 @@
 // MovieCoordinator.swift
-// Copyright © RoadMap. All rights reserved.
+// Copyright © ClickWatch. All rights reserved.
 
 import UIKit
 

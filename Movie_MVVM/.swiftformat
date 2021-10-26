@@ -8,7 +8,7 @@
 --exclude Pods
 
 # Генерируем хедер
---header "{file}\nCopyright © RoadMap. All rights reserved."
+--header "{file}\nCopyright © ClickWatch. All rights reserved."
 
 # Отключаем отступ
 --ifdef no-indent
