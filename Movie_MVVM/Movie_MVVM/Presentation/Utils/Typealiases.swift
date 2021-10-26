@@ -1,5 +1,5 @@
 // Typealiases.swift
-// Copyright © RoadMap. All rights reserved.
+// Copyright © ClickWatch. All rights reserved.
 
 typealias VoidHandler = (() -> ())
 typealias ResultHandler = (DataProps<Result>) -> ()
