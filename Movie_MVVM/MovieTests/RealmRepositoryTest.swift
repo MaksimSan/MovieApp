@@ -1,5 +1,5 @@
 // RealmRepositoryTest.swift
-// Copyright © RoadMap. All rights reserved.
+// Copyright © ClickWatch. All rights reserved.
 
 @testable import Movie_MVVM
 import RealmSwift

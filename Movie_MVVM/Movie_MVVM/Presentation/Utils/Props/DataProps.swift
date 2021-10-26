@@ -1,5 +1,5 @@
 // DataProps.swift
-// Copyright © RoadMap. All rights reserved.
+// Copyright © ClickWatch. All rights reserved.
 
 /// Пропс
 enum DataProps<T> {
