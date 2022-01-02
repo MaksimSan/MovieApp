@@ -74,8 +74,6 @@ final class MovieViewController: UIViewController {
 
     // MARK: Private Methods
 
-    private func changeProps() {}
-
     private func didTapOnButton() {
         viewModel?.didTap = { [weak self] categoryTitle in
             switch categoryTitle {
@@ -218,7 +216,7 @@ extension MovieViewController: UITableViewDataSource {
             guard let countFilms = result?.count else { return Int() }
             return countFilms
         }
-        return 0
+        return Int()
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

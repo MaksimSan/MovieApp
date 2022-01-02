@@ -6,6 +6,7 @@ import UIKit
 final class CacheImageService: CacheImageServiceProtocol {
     // MARK: - Private Properties
 
+    private let folderName = "image"
     private let fileManager = FileManager.default
     private let cacheLifeTime: TimeInterval = 30 * 24 * 60 * 60
     private var images: [String: UIImage] = [:]
@@ -32,7 +33,7 @@ final class CacheImageService: CacheImageServiceProtocol {
     // MARK: - Private Methods
 
     private func getImagePath(posterPath: String) -> String? {
-        let folderName = "image"
+        let folderName = folderName
         guard let documentsDirectory = fileManager.urls(for: .cachesDirectory, in: .userDomainMask).first
         else { return nil }
         let url = documentsDirectory.appendingPathComponent(folderName, isDirectory: true)
