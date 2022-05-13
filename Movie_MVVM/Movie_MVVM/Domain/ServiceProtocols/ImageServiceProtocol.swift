@@ -4,5 +4,5 @@
 import UIKit
 
 protocol ImageServiceProtocol {
-    func getImage(posterPath: String, completion: @escaping (Swift.Result<UIImage, Error>) -> ())
+    func getImage(posterPath: String, completion: @escaping (Result<UIImage, Error>) -> Void)
 }

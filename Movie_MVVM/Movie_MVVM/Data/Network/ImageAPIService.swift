@@ -6,7 +6,7 @@ import Foundation
 final class ImageAPIService: ImageAPIServiceProtocol {
     private let imageURL = "https://image.tmdb.org/t/p/w500"
 
-    func getImage(posterPath: String, completion: @escaping (Swift.Result<Data, Error>) -> ()) {
+    func getImage(posterPath: String, completion: @escaping (Result<Data, Error>) -> Void) {
         DispatchQueue.global().async {
             do {
                 guard let url = URL(string: self.imageURL + posterPath) else { return }

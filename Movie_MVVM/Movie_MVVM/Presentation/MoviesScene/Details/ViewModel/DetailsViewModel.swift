@@ -9,6 +9,7 @@ protocol DetailsViewModelProtocol: AnyObject {
 }
 
 final class DetailsViewModel: DetailsViewModelProtocol {
+    
     // MARK: Enums
 
     private enum Constants {
@@ -17,7 +18,7 @@ final class DetailsViewModel: DetailsViewModelProtocol {
         static let errorMessage = "Ошибка: "
     }
 
-    // MARK: Internal Properties
+    // MARK: Public Properties
 
     var movieID: Int?
     var reloadTable: VoidHandler?
@@ -44,30 +45,27 @@ final class DetailsViewModel: DetailsViewModelProtocol {
     private func getDetailsMovie() {
         details = repository.get(
             argumentPredicateOne: Constants.movieIDTitle,
-            argumentPredicateTwo: String(movieID ?? 0)
+            argumentPredicateTwo: String(movieID ?? .zero)
         )?.first
         if details == nil {
             movieAPIService.getMovieDetails(movieID: movieID) { [weak self] result in
                 guard let self = self else { return }
                 switch result {
                 case let .success(detail):
-                    detail.movieID = String(self.movieID ?? 0)
+                    detail.movieID = String(self.movieID ?? .zero)
                     DispatchQueue.main.async {
                         self.repository.save(object: [detail])
                         self.details = self.repository.get(
                             argumentPredicateOne: Constants.movieIDTitle,
-                            argumentPredicateTwo: String(self.movieID ?? 0)
+                            argumentPredicateTwo: String(self.movieID ?? .zero)
                         )?.first
                         guard let details = self.details else { return }
                         self.updateProps?(.success([details]))
                         self.reloadTable?()
                     }
                 case let .failure(error):
-                    self
-                        .updateProps?(.failure(
-                            Constants.errorTitle,
-                            Constants.errorMessage + "\(error.localizedDescription)"
-                        ))
+                    self.updateProps?(.failure(Constants.errorTitle,
+                                               Constants.errorMessage + "\(error.localizedDescription)"))
                 }
             }
         } else {

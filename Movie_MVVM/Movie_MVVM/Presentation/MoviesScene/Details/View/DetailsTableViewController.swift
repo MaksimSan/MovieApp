@@ -4,12 +4,17 @@
 import UIKit
 
 final class DetailsTableViewController: UITableViewController {
+    
     // MARK: Enums
 
     private enum Cells {
         case poster
         case title
         case overview
+    }
+    
+    private enum Constants {
+        static let actionTitleAlert: String = "OK"
     }
 
     // MARK: Private Properties
@@ -28,7 +33,7 @@ final class DetailsTableViewController: UITableViewController {
         }
     }
 
-    // MARK: Life Cycle View Controller
+    // MARK: Life Cycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,11 +51,11 @@ final class DetailsTableViewController: UITableViewController {
         case .success:
             activityIndicator.stopAnimating()
         case let .failure(errorTitle, errorMessage):
-            showAlert(title: errorTitle, message: errorMessage, actionTitle: "OK")
+            showAlert(title: errorTitle, message: errorMessage, actionTitle: Constants.actionTitleAlert)
         }
     }
 
-    // MARK: Internal Methods
+    // MARK: Public Methods
 
     func setupViewModel(viewModel: DetailsViewModelProtocol) {
         self.viewModel = viewModel
@@ -88,7 +93,7 @@ final class DetailsTableViewController: UITableViewController {
         tableView.register(OverviewTableViewCell.self, forCellReuseIdentifier: OverviewTableViewCell.identifier)
     }
 
-    // MARK: Override Methods
+    // MARK: Table View Data Source
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         cells.count

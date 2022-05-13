@@ -4,6 +4,7 @@
 import UIKit
 
 final class CacheImageService: CacheImageServiceProtocol {
+    
     // MARK: - Private Properties
 
     private let folderName = "image"
@@ -11,7 +12,7 @@ final class CacheImageService: CacheImageServiceProtocol {
     private let cacheLifeTime: TimeInterval = 30 * 24 * 60 * 60
     private var images: [String: UIImage] = [:]
 
-    // MARK: - Internal Methods
+    // MARK: - Public Methods
 
     func saveImageToCache(posterPath: String, image: UIImage) {
         guard let fileName = getImagePath(posterPath: posterPath),

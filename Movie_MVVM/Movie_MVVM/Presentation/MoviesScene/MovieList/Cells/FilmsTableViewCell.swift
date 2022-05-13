@@ -30,7 +30,7 @@ final class FilmsTableViewCell: UITableViewCell {
 
     private let imageService = ImageService()
 
-    // MARK: Set Selected
+    // MARK: Life cycle
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
@@ -41,17 +41,16 @@ final class FilmsTableViewCell: UITableViewCell {
         setupOverviewLabel()
         setupAvarage()
     }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        posterImageView.image = UIImage(systemName: Constant.placeholderPosterImage)
+    }
 
-    // MARK: Internal Properties
+    // MARK: Public Methods
 
-    func configureCell(
-        posterPath: String?,
-        title: String?,
-        overview: String?,
-        releaseDate: String?,
-        ratingAvarage: Float?
-    ) {
-        imageService.getImage(posterPath: posterPath ?? "") { [weak self] result in
+    func configureCell(with model: ConfigureCellModel) {
+        imageService.getImage(posterPath: model.posterPath ?? String()) { [weak self] result in
             DispatchQueue.main.async {
                 switch result {
                 case let .success(image):
@@ -61,15 +60,10 @@ final class FilmsTableViewCell: UITableViewCell {
                 }
             }
         }
-        titleLabel.text = title
-        overviewLabel.text = overview
-        realiseDateLabel.text = convertDateFormat(inputDate: releaseDate ?? "")
-        ratingAvarageLabel.text = String(ratingAvarage ?? 0)
-    }
-
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        posterImageView.image = UIImage(systemName: Constant.placeholderPosterImage)
+        titleLabel.text = model.title
+        overviewLabel.text = model.overview
+        realiseDateLabel.text = convertDateFormat(inputDate: model.releaseDate ?? String())
+        ratingAvarageLabel.text = String(model.ratingAvarage ?? .zero)
     }
 
     // MARK: Private Methods
@@ -101,10 +95,7 @@ final class FilmsTableViewCell: UITableViewCell {
             ratingAvarageLabel.leadingAnchor.constraint(equalTo: posterImageView.trailingAnchor, constant: 5),
             ratingAvarageLabel.topAnchor.constraint(equalTo: overviewLabel.bottomAnchor, constant: 5),
             ratingAvarageLabel.bottomAnchor.constraint(equalTo: mainView.bottomAnchor, constant: -5),
-            ratingAvarageLabel.widthAnchor.constraint(
-                equalTo: ratingAvarageLabel.heightAnchor,
-                multiplier: 1.5
-            )
+            ratingAvarageLabel.widthAnchor.constraint(equalTo: ratingAvarageLabel.heightAnchor,multiplier: 1.5)
         ])
     }
 
@@ -140,7 +131,7 @@ final class FilmsTableViewCell: UITableViewCell {
 
     private func setupTitleLabel() {
         mainView.addSubview(titleLabel)
-        titleLabel.numberOfLines = 0
+        titleLabel.numberOfLines = .zero
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.font = UIFont.boldSystemFont(ofSize: 17)
         titleLabel.textAlignment = .center
@@ -155,7 +146,7 @@ final class FilmsTableViewCell: UITableViewCell {
         mainView.addSubview(overviewLabel)
         overviewLabel.translatesAutoresizingMaskIntoConstraints = false
         overviewLabel.textAlignment = .center
-        overviewLabel.numberOfLines = 0
+        overviewLabel.numberOfLines = .zero
         NSLayoutConstraint.activate([
             overviewLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 5),
             overviewLabel.trailingAnchor.constraint(equalTo: mainView.trailingAnchor, constant: -5),

@@ -7,22 +7,27 @@ protocol MovieViewModelProtocol: AnyObject {
     var reloadTable: VoidHandler? { get set }
     var updateProps: ResultHandler? { get set }
     var didTap: StringHandler? { get set }
+    
     func updateData(with buttonTag: Int)
 }
 
 final class MovieViewModel: MovieViewModelProtocol {
+    
     // MARK: Enums
 
     private enum Constants {
-        static let topRatedCategoryURLPath = "top_rated"
-        static let popularCategoryURLPath = "popular"
-        static let upcomingCategoryURLPath = "upcoming"
-        static let errorTitle = "Не удалось загрузить данные"
-        static let errorMessage = "Ошибка: "
-        static let categoryTitle = "category"
+        static let topRatedCategoryURLPath: String = "top_rated"
+        static let popularCategoryURLPath: String = "popular"
+        static let upcomingCategoryURLPath: String = "upcoming"
+        static let errorTitle: String = "Не удалось загрузить данные"
+        static let errorMessage: String = "Ошибка: "
+        static let categoryTitle: String = "category"
+        static let topRatedButtonTag: Int = 0
+        static let popularButtonTag: Int = 1
+        static let upcomingButtonTag: Int = 2
     }
 
-    // MARK: Internal Properties
+    // MARK: Public Properties
 
     var reloadTable: VoidHandler?
     var updateProps: ResultHandler?
@@ -31,12 +36,12 @@ final class MovieViewModel: MovieViewModelProtocol {
     // MARK: Private Properties
 
     private var movieAPIService: MovieAPIServiceProtocol
-    private var repository: DataBaseRepository<Result>
-    private var results: [Result]?
+    private var repository: DataBaseRepository<FilmObject>
+    private var results: [FilmObject]?
 
     // MARK: Initializers
 
-    init(movieAPIService: MovieAPIServiceProtocol, repository: DataBaseRepository<Result>) {
+    init(movieAPIService: MovieAPIServiceProtocol, repository: DataBaseRepository<FilmObject>) {
         self.movieAPIService = movieAPIService
         self.repository = repository
         repository.delete()
@@ -44,20 +49,21 @@ final class MovieViewModel: MovieViewModelProtocol {
         getMovies(urlPath: Constants.topRatedCategoryURLPath)
     }
 
-    // MARK: Internal Methods
+    // MARK: Public Methods
 
     func updateData(with buttonTag: Int) {
         switch buttonTag {
-        case 0:
+        case Constants.topRatedButtonTag:
             getMovies(urlPath: Constants.topRatedCategoryURLPath)
             didTap?(Constants.topRatedCategoryURLPath)
-        case 1:
+        case Constants.popularButtonTag:
             getMovies(urlPath: Constants.popularCategoryURLPath)
             didTap?(Constants.popularCategoryURLPath)
-        case 2:
+        case Constants.upcomingButtonTag:
             getMovies(urlPath: Constants.upcomingCategoryURLPath)
             didTap?(Constants.upcomingCategoryURLPath)
-        default: break
+        default:
+            break
         }
     }
 
@@ -85,11 +91,8 @@ final class MovieViewModel: MovieViewModelProtocol {
 
                 case let .failure(error):
                     DispatchQueue.main.async {
-                        self
-                            .updateProps?(.failure(
-                                Constants.errorTitle,
-                                Constants.errorMessage + "\(error.localizedDescription)"
-                            ))
+                        self.updateProps?(.failure(Constants.errorTitle,
+                                                   Constants.errorMessage + "\(error.localizedDescription)"))
                     }
                 }
             }

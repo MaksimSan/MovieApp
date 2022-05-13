@@ -4,6 +4,7 @@
 import Foundation
 
 final class MovieAPIService: MovieAPIServiceProtocol {
+    
     // MARK: Enums
 
     private enum URLComponentsTitles: String {
@@ -24,9 +25,9 @@ final class MovieAPIService: MovieAPIServiceProtocol {
         return decoder
     }()
 
-    // MARK: Internal Methods
+    // MARK: Public Methods
 
-    func getMovieList(urlPath: String, completion: @escaping (Swift.Result<[Result], Error>) -> ()) {
+    func getMovieList(urlPath: String, completion: @escaping (Result<[FilmObject], Error>) -> Void) {
         guard let url = createURL(urlPath: urlPath) else { return }
 
         URLSession.shared.dataTask(with: url) { data, _, error in
@@ -37,7 +38,7 @@ final class MovieAPIService: MovieAPIServiceProtocol {
             guard let usageData = data else { return }
 
             do {
-                let movieList = try self.decoder.decode(Film.self, from: usageData)
+                let movieList = try self.decoder.decode(Films.self, from: usageData)
                 completion(.success(movieList.results))
             } catch {
                 completion(.failure(error))
@@ -45,8 +46,8 @@ final class MovieAPIService: MovieAPIServiceProtocol {
         }.resume()
     }
 
-    func getMovieDetails(movieID: Int?, completion: @escaping (Swift.Result<Details, Error>) -> ()) {
-        guard let url = createURL(urlPath: String(movieID ?? 0)) else { return }
+    func getMovieDetails(movieID: Int?, completion: @escaping (Result<Details, Error>) -> Void) {
+        guard let url = createURL(urlPath: String(movieID ?? .zero)) else { return }
 
         URLSession.shared.dataTask(with: url) { data, _, error in
             if let error = error {

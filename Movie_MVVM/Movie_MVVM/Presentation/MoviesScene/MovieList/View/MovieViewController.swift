@@ -4,40 +4,39 @@
 import UIKit
 
 final class MovieViewController: UIViewController {
+    
     // MARK: Enums
 
     private enum Constants {
-        static let topRatedCategoryTitle = "Top Rated"
-        static let popularCategoryTitle = "Popular"
-        static let upcomingCategoryTitle = "Upcoming"
-        static let topRatedCategoryURLPath = "top_rated"
-        static let popularCategoryURLPath = "popular"
-        static let upcomingCategoryURLPath = "upcoming"
-        static let tableIdentifier = "Table in First Screen"
+        static let topRatedCategoryTitle: String = "Top Rated"
+        static let popularCategoryTitle: String = "Popular"
+        static let upcomingCategoryTitle: String = "Upcoming"
+        static let topRatedCategoryURLPath: String = "top_rated"
+        static let popularCategoryURLPath: String = "popular"
+        static let upcomingCategoryURLPath: String = "upcoming"
+        static let tableIdentifier: String = "Table in First Screen"
+        static let actionTitleAlert: String = "OK"
     }
 
-    // MARK: Private Visual Components
+    // MARK: Private Properties
 
     private let tableView = UITableView()
     private let topRatedButton = UIButton()
     private let popularButton = UIButton()
     private let upcomingButton = UIButton()
     private let activityIndicator = UIActivityIndicatorView()
-
-    // MARK: Internal Properties
-
-    var toDetails: IntHandler?
-
-    // MARK: Private Properties
-
     private var viewModel: MovieViewModelProtocol?
-    private var dataProps: DataProps<Result> = .loading {
+    private var dataProps: DataProps<FilmObject> = .loading {
         didSet {
             view.layoutIfNeeded()
         }
     }
 
-    // MARK: Life Cycle View Controller
+    // MARK: Public Properties
+
+    var toDetails: IntHandler?
+
+    // MARK: Life Cycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -62,11 +61,11 @@ final class MovieViewController: UIViewController {
             tableView.isHidden = false
             activityIndicator.stopAnimating()
         case let .failure(errorTitle, errorMessage):
-            showAlert(title: errorTitle, message: errorMessage, actionTitle: "OK")
+            showAlert(title: errorTitle, message: errorMessage, actionTitle: Constants.actionTitleAlert)
         }
     }
 
-    // MARK: Internal Methods
+    // MARK: Public Methods
 
     func setupViewModel(viewModel: MovieViewModelProtocol) {
         self.viewModel = viewModel
@@ -118,7 +117,7 @@ final class MovieViewController: UIViewController {
         topRatedButton.layer.cornerRadius = 5
         topRatedButton.layer.borderWidth = 1
         topRatedButton.layer.borderColor = UIColor.black.cgColor
-        topRatedButton.tag = 0
+        topRatedButton.tag = .zero
         topRatedButton.addTarget(self, action: #selector(changeCategoryMovie), for: .touchUpInside)
         NSLayoutConstraint.activate([
             topRatedButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 20),
@@ -199,7 +198,7 @@ final class MovieViewController: UIViewController {
     }
 
     private func returnStartTable() {
-        tableView.bounds = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+        tableView.bounds = CGRect(x: .zero, y: .zero, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
     }
 
     @objc private func changeCategoryMovie(button: UIButton) {
@@ -225,13 +224,12 @@ extension MovieViewController: UITableViewDataSource {
             for: indexPath
         ) as? FilmsTableViewCell else { return UITableViewCell() }
         if case let .success(result) = dataProps {
-            cell.configureCell(
-                posterPath: result?[indexPath.row].posterPath,
-                title: result?[indexPath.row].title,
-                overview: result?[indexPath.row].overview,
-                releaseDate: result?[indexPath.row].releaseDate,
-                ratingAvarage: result?[indexPath.row].voteAverage
-            )
+            let model = ConfigureCellModel(posterPath: result?[indexPath.row].posterPath,
+                                           title: result?[indexPath.row].title,
+                                           overview: result?[indexPath.row].overview,
+                                           releaseDate: result?[indexPath.row].releaseDate,
+                                           ratingAvarage: result?[indexPath.row].voteAverage)
+            cell.configureCell(with: model)
         }
         cell.selectionStyle = .none
         return cell

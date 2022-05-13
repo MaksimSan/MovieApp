@@ -4,6 +4,7 @@
 import UIKit
 
 final class ImageProxy: ImageProxyProtocol {
+    
     // MARK: - Private Properties
 
     private let imageAPIService: ImageAPIServiceProtocol
@@ -18,7 +19,7 @@ final class ImageProxy: ImageProxyProtocol {
 
     // MARK: - Public Methods
 
-    func loadImage(posterPath: String, completion: @escaping (Swift.Result<UIImage, Error>) -> Void) {
+    func loadImage(posterPath: String, completion: @escaping (Result<UIImage, Error>) -> Void) {
         let image = cacheImageService.getImageFromCache(posterPath: posterPath)
 
         if image == nil {

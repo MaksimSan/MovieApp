@@ -4,12 +4,11 @@
 import Foundation
 import RealmSwift
 
-/// Фильм
-struct Film: Decodable {
-    var results: [Result]
+struct Films: Decodable {
+    var results: [FilmObject]
 }
 
-final class Result: Object, Decodable {
+final class FilmObject: Object, Decodable {
     @objc dynamic var posterPath = String()
     @objc dynamic var overview = String()
     @objc dynamic var title = String()

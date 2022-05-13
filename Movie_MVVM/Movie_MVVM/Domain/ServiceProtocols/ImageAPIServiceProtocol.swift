@@ -4,5 +4,5 @@
 import Foundation
 
 protocol ImageAPIServiceProtocol: AnyObject {
-    func getImage(posterPath: String, completion: @escaping (Swift.Result<Data, Error>) -> ())
+    func getImage(posterPath: String, completion: @escaping (Result<Data, Error>) -> Void)
 }

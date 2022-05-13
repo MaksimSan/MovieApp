@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		72E6CAC2282E4253001B3FCB /* ConfigureCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72E6CAC1282E4253001B3FCB /* ConfigureCellModel.swift */; };
 		F41953AA2718BE6D006AD946 /* ImageProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41953A92718BE6D006AD946 /* ImageProxy.swift */; };
 		F41953AC2718BF51006AD946 /* CacheImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41953AB2718BF51006AD946 /* CacheImageService.swift */; };
 		F41953AE2718BF75006AD946 /* ImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41953AD2718BF75006AD946 /* ImageService.swift */; };
@@ -83,6 +84,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		72E6CAC1282E4253001B3FCB /* ConfigureCellModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigureCellModel.swift; sourceTree = "<group>"; };
 		F41953A92718BE6D006AD946 /* ImageProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageProxy.swift; sourceTree = "<group>"; };
 		F41953AB2718BF51006AD946 /* CacheImageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheImageService.swift; sourceTree = "<group>"; };
 		F41953AD2718BF75006AD946 /* ImageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageService.swift; sourceTree = "<group>"; };
@@ -173,6 +175,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		72E6CAC0282E4244001B3FCB /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				72E6CAC1282E4253001B3FCB /* ConfigureCellModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		F444E82A27205F530014A03D /* Application */ = {
 			isa = PBXGroup;
 			children = (
@@ -223,6 +233,7 @@
 		F444E82F272060340014A03D /* MovieList */ = {
 			isa = PBXGroup;
 			children = (
+				72E6CAC0282E4244001B3FCB /* Model */,
 				F492D80C271472AC00078D83 /* Cells */,
 				F492D7F8271461E000078D83 /* View */,
 				F492D7F6271461CF00078D83 /* ViewModel */,
@@ -729,6 +740,7 @@
 				F41953AC2718BF51006AD946 /* CacheImageService.swift in Sources */,
 				F492D7DC27143C6A00078D83 /* TitleTableViewCell.swift in Sources */,
 				F492D7DA27143C4C00078D83 /* PosterTableViewCell.swift in Sources */,
+				72E6CAC2282E4253001B3FCB /* ConfigureCellModel.swift in Sources */,
 				F496CD652715CF6200F88F3C /* UIViewController+Extension.swift in Sources */,
 				F492D7D527143C0600078D83 /* DetailsTableViewController.swift in Sources */,
 				F496CD592715A6B400F88F3C /* DetailsViewModel.swift in Sources */,
@@ -999,7 +1011,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "MS.Movie-MVVM";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -1018,7 +1030,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "MS.Movie-MVVM";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

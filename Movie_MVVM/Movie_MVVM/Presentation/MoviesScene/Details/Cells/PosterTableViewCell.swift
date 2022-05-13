@@ -4,27 +4,25 @@
 import UIKit
 
 final class PosterTableViewCell: UITableViewCell {
+    
     // MARK: Static Properties
 
     static let identifier = "PosterTableViewCell"
 
-    // MARK: Private Visual Components
-
-    private let posterImageView = UIImageView()
-
     // MARK: Private Properties
 
+    private let posterImageView = UIImageView()
     private let imageService = ImageService()
     private let placeholderImage = "film"
 
-    // MARK: Set Selected
+    // MARK: Life cycle
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         setupImageView()
     }
 
-    // MARK: Internal Methods
+    // MARK: Public Methods
 
     func configureCell(posterPath: String) {
         imageService.getImage(posterPath: posterPath) { [weak self] result in

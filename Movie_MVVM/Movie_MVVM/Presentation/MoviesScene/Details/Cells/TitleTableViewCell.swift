@@ -4,26 +4,24 @@
 import UIKit
 
 final class TitleTableViewCell: UITableViewCell {
+    
     // MARK: Static Properties
 
     static let identifier = "TitleTableViewCell"
 
-    // MARK: Private Visual Components
-
-    private let titleMovie = UILabel()
-
     // MARK: Private Properties
 
+    private let titleMovie = UILabel()
     private let titleIdentifier = "Title Details"
 
-    // MARK: Set Selected
+    // MARK: Life cycle
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         setupTitleLabel()
     }
 
-    // MARK: Internal Methods
+    // MARK: Public Methods
 
     func configureCell(title: String) {
         titleMovie.text = title

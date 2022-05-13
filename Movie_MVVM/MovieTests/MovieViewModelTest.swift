@@ -18,16 +18,16 @@ final class MockMovieAPIService: MovieAPIServiceProtocol {
         self.result = result
     }
 
-    func getMovieList(urlPath: String, completion: @escaping (Swift.Result<[Result], Error>) -> ()) {
+    func getMovieList(urlPath: String, completion: @escaping (Result<[Result], Error>) -> Void) {
         if result.isEmpty {
-            let error = NSError(domain: "", code: 0, userInfo: nil)
+            let error = NSError(domain: String(), code: .zero, userInfo: nil)
             completion(.failure(error))
         } else {
             completion(.success(result))
         }
     }
 
-    func getMovieDetails(movieID: Int?, completion: @escaping (Swift.Result<Details, Error>) -> ()) {}
+    func getMovieDetails(movieID: Int?, completion: @escaping (Result<Details, Error>) -> Void) {}
 }
 
 final class MovieViewModelTest: XCTestCase {
@@ -43,7 +43,7 @@ final class MovieViewModelTest: XCTestCase {
         mockAPIService = MockMovieAPIService(result: result)
         var catchResult: [Result] = []
 
-        mockAPIService.getMovieList(urlPath: "") { result in
+        mockAPIService.getMovieList(urlPath: String()) { result in
             switch result {
             case let .success(result):
                 catchResult = result
@@ -58,7 +58,7 @@ final class MovieViewModelTest: XCTestCase {
     func testGetMovieFromRequestFailure() {
         mockAPIService = MockMovieAPIService()
         var catchResult: [Result] = []
-        mockAPIService.getMovieList(urlPath: "") { result in
+        mockAPIService.getMovieList(urlPath: String()) { result in
             switch result {
             case let .success(result):
                 catchResult = result

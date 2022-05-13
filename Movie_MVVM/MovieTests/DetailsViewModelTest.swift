@@ -18,11 +18,11 @@ final class MockDetailsMovieAPIService: MovieAPIServiceProtocol {
         self.details = details
     }
 
-    func getMovieList(urlPath: String, completion: @escaping (Swift.Result<[Result], Error>) -> ()) {}
+    func getMovieList(urlPath: String, completion: @escaping (Result<[Result], Error>) -> Void) {}
 
-    func getMovieDetails(movieID: Int?, completion: @escaping (Swift.Result<Details, Error>) -> ()) {
+    func getMovieDetails(movieID: Int?, completion: @escaping (Result<Details, Error>) -> Void) {
         if details == nil {
-            let error = NSError(domain: "", code: 0, userInfo: nil)
+            let error = NSError(domain: String(), code: .zero, userInfo: nil)
             completion(.failure(error))
         } else {
             guard let details = details else { return }

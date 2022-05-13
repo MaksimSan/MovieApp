@@ -4,6 +4,7 @@
 import UIKit
 
 final class OverviewTableViewCell: UITableViewCell {
+    
     // MARK: Static Properties
 
     static let identifier = "OverviewTableViewCell"
@@ -12,14 +13,14 @@ final class OverviewTableViewCell: UITableViewCell {
 
     private let overviewLabel = UILabel()
 
-    // MARK: Set Selected
+    // MARK: Life cycle
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         setupOverviewLabel()
     }
 
-    // MARK: Internal Methods
+    // MARK: Public Methods
 
     func configureCell(overview: String) {
         overviewLabel.text = overview
@@ -30,7 +31,7 @@ final class OverviewTableViewCell: UITableViewCell {
     private func setupOverviewLabel() {
         addSubview(overviewLabel)
         overviewLabel.translatesAutoresizingMaskIntoConstraints = false
-        overviewLabel.numberOfLines = 0
+        overviewLabel.numberOfLines = .zero
         overviewLabel.textAlignment = .center
         overviewLabel.sizeToFit()
         NSLayoutConstraint.activate([
